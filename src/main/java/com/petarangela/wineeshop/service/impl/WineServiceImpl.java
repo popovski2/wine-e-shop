@@ -2,8 +2,15 @@ package com.petarangela.wineeshop.service.impl;
 
 import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Manufacturer;
+import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
+import com.petarangela.wineeshop.model.exceptions.CategoryNotFoundException;
 import com.petarangela.wineeshop.model.exceptions.InvalidWineIdException;
+import com.petarangela.wineeshop.model.exceptions.ManufacturerNotFoundException;
+import com.petarangela.wineeshop.model.exceptions.TypeNotFoundException;
+import com.petarangela.wineeshop.repository.CategoryRepository;
+import com.petarangela.wineeshop.repository.ManufacturerRepository;
+import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.WineService;
 import org.springframework.stereotype.Service;
@@ -15,10 +22,18 @@ import java.util.List;
 public class WineServiceImpl implements WineService {
 
     private final WineRepository wineRepository;
+    private final CategoryRepository categoryRepository;
+    private final ManufacturerRepository manufacturerRepository;
+    private final TypeRepository typeRepository;
 
-    public WineServiceImpl(WineRepository wineRepository) {
+
+    public WineServiceImpl(WineRepository wineRepository, CategoryRepository categoryRepository, ManufacturerRepository manufacturerRepository, TypeRepository typeRepository) {
         this.wineRepository = wineRepository;
+        this.categoryRepository = categoryRepository;
+        this.manufacturerRepository = manufacturerRepository;
+        this.typeRepository = typeRepository;
     }
+
 
     @Override
     public List<Wine> listAllWines() {
@@ -31,19 +46,29 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public Wine create(String name, Double price, Integer quality, Category category, Manufacturer manufacturer) {
-        Wine wine = new Wine(name, price, quality, category, manufacturer);
+    public Wine create(String name, Double price, Integer quality, Long categoryId, Long manufacturerId, Long typeId) {
+        Type type = this.typeRepository.findById(typeId).orElseThrow(() -> new TypeNotFoundException(typeId));
+        Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
+        Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId).orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
+
+        Wine wine = new Wine(name, price, quality, category, manufacturer,type);
         return this.wineRepository.save(wine);
     }
 
     @Override
-    public Wine update(Long id, String name, Double price, Integer quantity, Category category, Manufacturer manufacturer) {
+    public Wine update(Long id, String name, Double price, Integer quantity, Long categoryId, Long manufacturerId, Long typeId) {
+
+        Type type = this.typeRepository.findById(typeId).orElseThrow(() -> new TypeNotFoundException(typeId));
+        Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
+        Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId).orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
+
         Wine wine = this.findById(id);
         wine.setName(name);
         wine.setPrice(price);
         wine.setQuantity(quantity);
         wine.setCategory(category);
         wine.setManufacturer(manufacturer);
+        wine.setType(type);
 
         return this.wineRepository.save(wine);
     }

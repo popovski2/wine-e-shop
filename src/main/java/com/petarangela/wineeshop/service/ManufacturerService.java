@@ -16,4 +16,6 @@ public interface ManufacturerService {
     Manufacturer create(String name, String address);
 
     void deleteById(Long id);
+
+
 }

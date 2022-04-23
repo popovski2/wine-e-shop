@@ -19,27 +19,32 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         this.manufacturerRepository = manufacturerRepository;
     }
 
+    /** FIND  ALL MANUFACTURERS */
     @Override
     public List<Manufacturer> findAll() {
         return this.manufacturerRepository.findAll();
     }
 
+    /** FIND  MANUFACTURER BY ID */
     @Override
     public Manufacturer findById(Long id) {
         return this.manufacturerRepository.findById(id).orElseThrow(() -> new InvalidManufacturerIdException(id));
     }
 
+    /** SAVE MANUFACTURER (UPDATE) */
     @Override
     public Optional<Manufacturer> save(String name, String address) {
         return Optional.of(this.manufacturerRepository.save(new Manufacturer(name,address)));
     }
 
+    /** CREATE MANUFACTURER */
     @Override
     public Manufacturer create(String name, String address) {
         Manufacturer manufacturer = new Manufacturer(name, address);
         return this.manufacturerRepository.save(manufacturer);
     }
 
+    /** DELETE MANUFACTURER BY ID*/
     @Override
     public void deleteById(Long id) {
         this.manufacturerRepository.deleteById(id);

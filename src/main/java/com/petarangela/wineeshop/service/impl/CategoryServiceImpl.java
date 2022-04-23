@@ -17,19 +17,57 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+
+
+
+    /** FIND CATEGORY BY ID */
     @Override
     public Category findById(Long id) {
         return this.categoryRepository.findById(id).orElseThrow(() -> new InvalidCategoryIdException(id));
     }
 
+    /** LIST ALL CATEGORIES */
     @Override
     public List<Category> listAll() {
+
         return this.categoryRepository.findAll();
     }
 
+    /** CREATE CATEGORY */
     @Override
     public Category create(String name) {
+
+        if (name==null || name.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         Category category = new Category(name);
         return this.categoryRepository.save(category);
+    }
+
+    /** UPDATE CATEGORY */
+    @Override
+    public Category update(String name) {
+        if (name==null || name.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        Category category = new Category(name);
+        return this.categoryRepository.save(category);
+    }
+
+
+    /** DELETE CATEGORY */
+    @Override
+    public void delete(String name) {
+        if (name==null || name.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        categoryRepository.deleteByName(name);
+    }
+
+
+    /** SEARCH CATEGORIES */
+    @Override
+    public List<Category> searchCategories(String searchText) {
+        return categoryRepository.findAllByNameLike(searchText);
     }
 }

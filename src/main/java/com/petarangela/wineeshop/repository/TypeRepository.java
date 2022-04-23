@@ -1,15 +1,13 @@
 package com.petarangela.wineeshop.repository;
 
-import com.petarangela.wineeshop.model.Category;
+import com.petarangela.wineeshop.model.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-
-    List<Category> findAllByNameLike(String text);
+public interface TypeRepository extends JpaRepository<Type,Long> {
 
     void deleteByName(String name);
 }

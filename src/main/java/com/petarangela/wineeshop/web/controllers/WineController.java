@@ -18,6 +18,7 @@ public class WineController {
     }
 
 
+
     public String showProducts(String nameSearch, Long categoryId) {
         if (nameSearch == null && categoryId == null) {
             this.service.listAllWines();
@@ -38,13 +39,13 @@ public class WineController {
     }
 
 
-    public String create(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer) {
-        this.service.create(name,price,quantity,category,manufacturer);
+    public String create(String name, Double price, Integer quantity, Long categoryId, Long manufacturerId,Long typeId) {
+        this.service.create(name,price,quantity,categoryId,manufacturerId,typeId);
         return "";
     }
 
-    public String update(Long id, String name, Double price, Integer quantity, Category category,Manufacturer manufacturer) {
-        this.service.update(id,name,price,quantity,category,manufacturer);
+    public String update(Long id, String name, Double price, Integer quantity, Long categoryId, Long manufacturerId,Long typeId) {
+        this.service.update(id,name,price,quantity,categoryId,manufacturerId,typeId);
         return "";
     }
 

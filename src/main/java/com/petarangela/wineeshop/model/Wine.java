@@ -16,6 +16,9 @@ public class Wine {
 
     private Integer quantity;
 
+    @OneToOne
+    private Type type;
+
     @ManyToOne
     private Category category;
 
@@ -27,12 +30,26 @@ public class Wine {
 
     public Wine() {}
 
-    public Wine(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer) {
+    /**
+     *  WE USE THIS CONSTRUCTOR IN THE create FUNCTIONALITY IN THE SERVICE
+     * */
+    public Wine(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer, Type type) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.category = category;
         this.manufacturer = manufacturer;
+        this.type = type;
+    }
+
+
+    public Wine(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer, User creator) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = category;
+        this.manufacturer = manufacturer;
+        this.creator = creator;
     }
 
     public String getName() {
@@ -85,5 +102,9 @@ public class Wine {
 
     public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

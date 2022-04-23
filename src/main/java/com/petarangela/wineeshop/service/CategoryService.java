@@ -14,4 +14,13 @@ public interface CategoryService {
 
     // create a new category
     Category create(String name);
+
+    // update a category
+    Category update(String name);
+
+    void delete(String name);
+
+
+    //  search categories
+    List<Category> searchCategories(String searchText);
 }

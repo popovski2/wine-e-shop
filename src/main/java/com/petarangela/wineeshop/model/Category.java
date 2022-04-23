@@ -2,24 +2,40 @@ package com.petarangela.wineeshop.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
 public class Category {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
+
+    @OneToMany
+    private List<Type> types;
+
+
+    public Category(String name, List<Type> types) {
+        this.name = name;
+        this.types = types;
+    }
 
     public Category() {}
 
     public Category(String name) {
         this.name = name;
+    }
+
+    public void setTypes(List<Type> types) {
+        this.types = types;
+    }
+
+    public List<Type> getTypes() {
+        return types;
     }
 
     public Long getId() {
