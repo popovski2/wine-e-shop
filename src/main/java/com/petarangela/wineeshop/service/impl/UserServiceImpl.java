@@ -28,9 +28,9 @@ public class UserServiceImpl implements UserService {
     CREATE USER === REGISTER USER
      */
    @Override
-    public User create(String username, String password, Role role) {
+    public User create(String username, String password, String name, String surname, Role role) {
         String encryptedPassword = this.passwordEncoder.encode(password);
-        User user = new User(username, encryptedPassword, role);
+        User user = new User(username, encryptedPassword, name, surname, role);
 
         return this.userRepository.save(user);
     }
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // KAKO TRET ARGUMENT PRAKJAME CUSTOMER ZA DA NE MOZE DA SE KREIRA NOV ADMIN
-        User user = new User(username,password,Role.CUSTOMER);
+        User user = new User(username,password, name, surname, Role.CUSTOMER);
         return userRepository.save(user);
     }
 

@@ -2,7 +2,6 @@ package com.petarangela.wineeshop.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Wine implements Serializable {
@@ -16,6 +15,8 @@ public class Wine implements Serializable {
     private Double price;
 
     private Integer quantity;
+
+    private String imageUrl;
 
     @OneToOne
     private Type type;
@@ -43,14 +44,16 @@ public class Wine implements Serializable {
         this.type = type;
     }
 
-    /*public Wine(String name, Double price, Integer quantity, Long categoryId, Long manufacturerId, Long typeId) {
+    public Wine(String name, Double price, Integer quantity, String imageUrl, Type type, Category category, Manufacturer manufacturer) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.category = ca;
-        this.manufacturer = manufacturer;
+        this.imageUrl = imageUrl;
         this.type = type;
-    }*/
+        this.category = category;
+        this.manufacturer = manufacturer;
+    }
+
 
 
     public Wine(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer, User creator) {
@@ -124,5 +127,13 @@ public class Wine implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -3,9 +3,10 @@ package com.petarangela.wineeshop.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Manufacturer {
+public class Manufacturer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -80,14 +80,14 @@ public class WineRESTController {
 
 
     /** WORKS !*/
-    @PutMapping("/update")
-    public ResponseEntity<Wine> updateWine(@RequestParam Long id,
-                                           @RequestParam String name,
-                                           @RequestParam Double price,
-                                           @RequestParam Integer quantity,
-                                           @RequestParam Long categoryId,
-                                           @RequestParam Long manufacturerId,
-                                           @RequestParam Long typeId){
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Wine> updateWine(@PathVariable Long id,
+                                           @RequestParam(required = false) String name,
+                                           @RequestParam(required = false) Double price,
+                                           @RequestParam(required = false) Integer quantity,
+                                           @RequestParam(required = false) Long categoryId,
+                                           @RequestParam(required = false) Long manufacturerId,
+                                           @RequestParam(required = false) Long typeId){
 
 
         Wine updatedWine = this.wineService.update(id,name,price,quantity,categoryId,manufacturerId,typeId);

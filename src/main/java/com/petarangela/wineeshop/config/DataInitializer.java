@@ -7,10 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class DataInitializer {
@@ -38,7 +35,7 @@ public class DataInitializer {
 
     @PostConstruct
     public void initData() {
-        User admin = this.userService.create(ADMIN, ADMIN, Role.ROLE_ADMIN);
+        User admin = this.userService.create(ADMIN, ADMIN, ADMIN, ADMIN, Role.ROLE_ADMIN);
 
         List<Category> categories= new ArrayList<>();
         List<Manufacturer> manufacturers = new ArrayList<>();

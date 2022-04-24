@@ -2,24 +2,29 @@ package com.petarangela.wineeshop.service.impl;
 
 import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Type;
+import com.petarangela.wineeshop.model.Wine;
 import com.petarangela.wineeshop.model.exceptions.CategoryNotFoundException;
 import com.petarangela.wineeshop.model.exceptions.InvalidTypeIdException;
 import com.petarangela.wineeshop.repository.CategoryRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
+import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.TypeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TypeServiceImpl implements TypeService {
 
     private final TypeRepository typeRepository;
     private final CategoryRepository categoryRepository;
+    private final WineRepository wineRepository;
 
-    public TypeServiceImpl(TypeRepository typeRepository, CategoryRepository categoryRepository) {
+    public TypeServiceImpl(TypeRepository typeRepository, CategoryRepository categoryRepository, WineRepository wineRepository) {
         this.typeRepository = typeRepository;
         this.categoryRepository = categoryRepository;
+        this.wineRepository = wineRepository;
     }
 
 
@@ -54,11 +59,16 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public void delete(String name) {
-        if (name==null || name.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        this.typeRepository.deleteByName(name);
+    public Type delete(Long id) {
+        Type type = this.findById(id);
+        List<Wine> wines = this.wineRepository.findAll();
+        wines = wines.stream()
+                .filter(w -> w.getType().getId().equals(id)).
+                collect(Collectors.toList());
+        this.wineRepository.deleteAll(wines);
+
+        this.typeRepository.delete(type);
+        return type;
     }
 
     @Override

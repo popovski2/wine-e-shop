@@ -21,7 +21,7 @@ public interface TypeService {
     Type update(Long id, String name, String description, Long categoryId );
 
     // delete a type with its name and update the DB
-    void delete(String name);
+    Type delete(Long id);
 
     // find  all types that belong to certain category
     List<Type> findAllByCategoryName(String name);

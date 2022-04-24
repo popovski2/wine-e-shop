@@ -4,19 +4,22 @@ import com.petarangela.wineeshop.model.Manufacturer;
 import com.petarangela.wineeshop.model.Wine;
 import com.petarangela.wineeshop.model.exceptions.InvalidManufacturerIdException;
 import com.petarangela.wineeshop.repository.ManufacturerRepository;
+import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.ManufacturerService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ManufacturerServiceImpl implements ManufacturerService {
 
     private final ManufacturerRepository manufacturerRepository;
+    private final WineRepository wineRepository;
 
-    public ManufacturerServiceImpl(ManufacturerRepository manufacturerRepository) {
+    public ManufacturerServiceImpl(ManufacturerRepository manufacturerRepository, WineRepository wineRepository) {
         this.manufacturerRepository = manufacturerRepository;
+        this.wineRepository = wineRepository;
     }
 
     /** FIND  ALL MANUFACTURERS */
@@ -31,10 +34,11 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         return this.manufacturerRepository.findById(id).orElseThrow(() -> new InvalidManufacturerIdException(id));
     }
 
-    /** SAVE MANUFACTURER (UPDATE) */
+    /** SAVE MANUFACTURER (UPDATE)
+     * @return*/
     @Override
-    public Optional<Manufacturer> save(String name, String address) {
-        return Optional.of(this.manufacturerRepository.save(new Manufacturer(name,address)));
+    public Manufacturer save(String name, String address) {
+        return this.manufacturerRepository.save(new Manufacturer(name,address));
     }
 
     /** CREATE MANUFACTURER */
@@ -47,6 +51,11 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     /** DELETE MANUFACTURER BY ID*/
     @Override
     public void deleteById(Long id) {
+        List<Wine> wines = this.wineRepository.findAll();
+        wines = wines.stream()
+                .filter(w -> w.getType().getId().equals(id)).
+                collect(Collectors.toList());
+        this.wineRepository.deleteAll(wines);
         this.manufacturerRepository.deleteById(id);
     }
 
