@@ -1,6 +1,7 @@
 package com.petarangela.wineeshop.service;
 
 import com.petarangela.wineeshop.model.Category;
+import com.petarangela.wineeshop.model.Type;
 
 import java.util.List;
 
@@ -16,11 +17,16 @@ public interface CategoryService {
     Category create(String name);
 
     // update a category
-    Category update(String name);
+    Category update(Long id, String name);
 
-    void delete(String name);
-
+    Category delete(String name);
 
     //  search categories
     List<Category> searchCategories(String searchText);
+
+    // list all types of certain category (name is the  name of the category)
+    List<Type> listAllTypes(String name);
+
+    //find category by name
+    Category findByName(String name);
 }

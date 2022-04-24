@@ -15,14 +15,14 @@ public class Category {
 
     private String name;
 
-    @OneToMany
-    private List<Type> types;
+  /*  @OneToMany(mappedBy = "category")
+    private List<Type> types;*/
 
 
-    public Category(String name, List<Type> types) {
+   /* public Category(String name, List<Type> types) {
         this.name = name;
         this.types = types;
-    }
+    }*/
 
     public Category() {}
 
@@ -30,13 +30,13 @@ public class Category {
         this.name = name;
     }
 
-    public void setTypes(List<Type> types) {
+   /* public void setTypes(List<Type> types) {
         this.types = types;
     }
 
     public List<Type> getTypes() {
         return types;
-    }
+    }*/
 
     public Long getId() {
         return id;

@@ -1,15 +1,15 @@
 package com.petarangela.wineeshop.model;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
-public class Type {
+public class Type implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +19,32 @@ public class Type {
 
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_category")
+   // @OnDelete(action = OnDeleteAction.CASCADE)
+    private Category category;
+
+
+    public Type(String name, String description, Category category) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+    }
+
     public Type(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
     public Type() {
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public void setId(Long id) {

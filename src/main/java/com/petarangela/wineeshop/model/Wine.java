@@ -1,10 +1,11 @@
 package com.petarangela.wineeshop.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Wine {
+public class Wine implements Serializable {
 
     @Id
     @GeneratedValue
@@ -42,6 +43,15 @@ public class Wine {
         this.type = type;
     }
 
+    /*public Wine(String name, Double price, Integer quantity, Long categoryId, Long manufacturerId, Long typeId) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.category = ca;
+        this.manufacturer = manufacturer;
+        this.type = type;
+    }*/
+
 
     public Wine(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer, User creator) {
         this.name = name;
@@ -50,6 +60,14 @@ public class Wine {
         this.category = category;
         this.manufacturer = manufacturer;
         this.creator = creator;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     public String getName() {

@@ -47,6 +47,7 @@ public class WineServiceImpl implements WineService {
 
     @Override
     public Wine create(String name, Double price, Integer quality, Long categoryId, Long manufacturerId, Long typeId) {
+
         Type type = this.typeRepository.findById(typeId).orElseThrow(() -> new TypeNotFoundException(typeId));
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
         Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId).orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
@@ -85,4 +86,5 @@ public class WineServiceImpl implements WineService {
         // TODO: implement this function
         return new ArrayList<>();
     }
+
 }

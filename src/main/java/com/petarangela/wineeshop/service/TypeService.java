@@ -1,5 +1,6 @@
 package com.petarangela.wineeshop.service;
 
+import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
 
@@ -14,12 +15,16 @@ public interface TypeService {
     Type findById(Long id);
 
     // create a new type and save it to the DB
-    Type create(String name, String description);
+    Type create(String name, String description, Long categoryId);
 
     // update a type with specific id and save the changes to the DB
-    Type update(Long id, String name, String description );
+    Type update(Long id, String name, String description, Long categoryId );
 
     // delete a type with its name and update the DB
     void delete(String name);
+
+    // find  all types that belong to certain category
+    List<Type> findAllByCategoryName(String name);
+
 
 }

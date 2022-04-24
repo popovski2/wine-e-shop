@@ -11,5 +11,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     List<Category> findAllByNameLike(String text);
 
-    void deleteByName(String name);
+   // void deleteByName(String name);
+
+    Category findCategoryByName(String name);
 }

@@ -1,15 +1,16 @@
 package com.petarangela.wineeshop.config;
 
-import com.petarangela.wineeshop.model.Category;
-import com.petarangela.wineeshop.model.Manufacturer;
-import com.petarangela.wineeshop.model.Role;
-import com.petarangela.wineeshop.model.User;
+import com.petarangela.wineeshop.model.*;
 import com.petarangela.wineeshop.service.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class DataInitializer {
@@ -41,13 +42,33 @@ public class DataInitializer {
 
         List<Category> categories= new ArrayList<>();
         List<Manufacturer> manufacturers = new ArrayList<>();
+        List<Type> types = new ArrayList<>();
+
+
+
 
         /** CREATE CATEGORIES */
         for (int i = 1; i < 6; i++) {
             Category category = new Category("Category" + i);
-            categories.add(category);
+            //categories.add(category);
 
-            this.categoryService.create(category.getName());
+
+           //  GET ALL TYPES
+           List<Type> all = this.typeService.listAllTypes();
+
+
+           // MAP ALL TYPES TO THEIR IDS
+           List<Long> allIds = all.stream().map(Type::getId).collect(Collectors.toList());
+
+
+          this.categoryService.create(category.getName());
+        }
+
+        /** CREATE TYPES OF WINE */
+        for (int i = 1; i < 6; i++) {
+            this.typeService.create("Type of wine"+i,
+                    "Description for type: " + i,
+                    this.categoryService.listAll().get(i-1).getId());
         }
 
         /** CREATE MANUFACTURERS */
@@ -57,11 +78,7 @@ public class DataInitializer {
             this.manufacturerService.save(manufacturer.getName(),manufacturer.getAddress());
         }
 
-        /** CREATE TYPES OF WINE */
-        for (int i = 1; i < 6; i++) {
 
-            this.typeService.create("Type of wine"+i,"Description for type: " + i);
-        }
 
 
         for (int i = 1; i < 11; i++) {
