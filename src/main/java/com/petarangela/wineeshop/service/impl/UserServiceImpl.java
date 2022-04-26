@@ -4,8 +4,7 @@ import com.petarangela.wineeshop.model.Role;
 import com.petarangela.wineeshop.model.User;
 import com.petarangela.wineeshop.model.exceptions.InvalidArgumentsException;
 import com.petarangela.wineeshop.model.exceptions.InvalidUserCredentialsException;
-import com.petarangela.wineeshop.model.exceptions.PasswordsDoNotMatchException;
-import com.petarangela.wineeshop.model.exceptions.UsernameAlreadyExistsException;
+import com.petarangela.wineeshop.model.exceptions.EmailAlreadyExistsException;
 import com.petarangela.wineeshop.repository.UserRepository;
 import com.petarangela.wineeshop.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +26,7 @@ public class UserServiceImpl implements UserService {
     /*
     CREATE USER === REGISTER USER
      */
+/*
    @Override
     public User create(String username, String password, String name, String surname, Role role) {
         String encryptedPassword = this.passwordEncoder.encode(password);
@@ -34,38 +34,47 @@ public class UserServiceImpl implements UserService {
 
         return this.userRepository.save(user);
     }
+*/
 
 
-    /*
-    LOGIN USER
-    */
+    /********************************************************************************************************************
+
+                                                    LOGIN USER
+
+     *********************************************************************************************************************/
     @Override
-    public User login(String username, String password) {
-        if (username==null || username.isEmpty() || password==null || password.isEmpty()) {
+    public User login(String email, String password) {
+        if (email==null || email.isEmpty() || password==null || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
-        return userRepository.findByUsernameAndPassword(username,
-                password).orElseThrow(InvalidUserCredentialsException::new);
+        return userRepository.findByEmailAndPassword(email, password).orElseThrow(InvalidUserCredentialsException::new);
     }
 
-    /*
-    CREATE USER === REGISTER USER
-    */
+
+
+
+
+
+
+    /********************************************************************************************************************
+
+                                           CREATE USER === REGISTER USER
+
+    *********************************************************************************************************************/
     @Override
-    public User register(String username, String password, String repeatPassword, String name, String surname) {
-        if (username==null || username.isEmpty()  || password==null || password.isEmpty()) {
+    public User register(String email, String password, String name, String surname, Role role) {
+        if (email==null || email.isEmpty()  || password==null || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
-        if (!password.equals(repeatPassword)) {
-            throw new PasswordsDoNotMatchException();
-        }
 
-        if(this.userRepository.findByUsername(username).isPresent() || !this.userRepository.findByUsername(username).isEmpty()){
-            throw new UsernameAlreadyExistsException(username);
+
+        if(this.userRepository.findByEmail(email).isPresent() || !this.userRepository.findByEmail(email).isEmpty()){
+            throw new EmailAlreadyExistsException(email);
         }
 
         // KAKO TRET ARGUMENT PRAKJAME CUSTOMER ZA DA NE MOZE DA SE KREIRA NOV ADMIN
-        User user = new User(username,password, name, surname, Role.CUSTOMER);
+        String encryptedPassword = this.passwordEncoder.encode(password);
+        User user = new User(email,encryptedPassword, name, surname, role);
         return userRepository.save(user);
     }
 

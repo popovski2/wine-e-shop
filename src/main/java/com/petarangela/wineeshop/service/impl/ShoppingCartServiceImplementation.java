@@ -39,9 +39,9 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart getActiveShoppingCart(String username) {
+    public ShoppingCart getActiveShoppingCart(String email) {
 
-        User u = this.userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));;
+        User u = this.userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));;
 
         return this.shoppingCartRepository
                 .findByUserAndStatus(u, ShoppingCartStatus.CREATED)
@@ -53,8 +53,8 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
 
 
     @Override
-    public ShoppingCart addProductToShoppingCart(String username, Long wineId) {
-        ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
+    public ShoppingCart addProductToShoppingCart(String email, Long wineId) {
+        ShoppingCart shoppingCart = this.getActiveShoppingCart(email);
         //injektirame servis NE REPOSITORY
         Wine wine = this.wineService.findById(wineId);
 
@@ -62,7 +62,7 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
                 .filter(i->i.getId().equals(wineId))
                 .collect(Collectors.toList()).size() > 0) {
             //togas imame vakov produkt vo taa kosnicka
-            throw new ProductAlreadyInShoppingCartException(wineId,username);
+            throw new ProductAlreadyInShoppingCartException(wineId,email);
         }
 
         shoppingCart.getWines().add(wine);

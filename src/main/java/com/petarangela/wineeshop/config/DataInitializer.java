@@ -35,7 +35,7 @@ public class DataInitializer {
 
     @PostConstruct
     public void initData() {
-        User admin = this.userService.create(ADMIN, ADMIN, ADMIN, ADMIN, Role.ROLE_ADMIN);
+        User admin = this.userService.register("petarangela@gmail.com", ADMIN, ADMIN, ADMIN, Role.ROLE_ADMIN);
 
         List<Category> categories= new ArrayList<>();
         List<Manufacturer> manufacturers = new ArrayList<>();
