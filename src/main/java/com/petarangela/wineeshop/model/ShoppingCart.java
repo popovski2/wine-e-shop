@@ -3,13 +3,14 @@ package com.petarangela.wineeshop.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
-public class ShoppingCart {
+public class ShoppingCart implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

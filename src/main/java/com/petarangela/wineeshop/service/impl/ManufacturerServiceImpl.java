@@ -6,6 +6,7 @@ import com.petarangela.wineeshop.model.exceptions.InvalidManufacturerIdException
 import com.petarangela.wineeshop.repository.ManufacturerRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.ManufacturerService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +25,14 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     /** FIND  ALL MANUFACTURERS */
     @Override
+    @Cacheable(value="Manufacturer")
     public List<Manufacturer> findAll() {
         return this.manufacturerRepository.findAll();
     }
 
     /** FIND  MANUFACTURER BY ID */
     @Override
+    @Cacheable(value="Manufacturer", key="#id")
     public Manufacturer findById(Long id) {
         return this.manufacturerRepository.findById(id).orElseThrow(() -> new InvalidManufacturerIdException(id));
     }

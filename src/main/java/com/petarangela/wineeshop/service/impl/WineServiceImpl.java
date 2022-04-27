@@ -13,6 +13,9 @@ import com.petarangela.wineeshop.repository.ManufacturerRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.WineService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,11 +39,13 @@ public class WineServiceImpl implements WineService {
 
 
     @Override
+    @Cacheable(value="Wine")
     public List<Wine> listAllWines() {
         return this.wineRepository.findAll();
     }
 
     @Override
+    @Cacheable(value="Wine", key="#id")
     public Wine findById(Long id) {
         return this.wineRepository.findById(id).orElseThrow(() -> new InvalidWineIdException(id));
     }
@@ -57,6 +62,7 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
+    @CachePut(value="Wine", key="#id")
     public Wine update(Long id, String name, Double price, Integer quantity, Long categoryId, Long manufacturerId, Long typeId) {
 
         Type type = this.typeRepository.findById(typeId).orElseThrow(() -> new TypeNotFoundException(typeId));
@@ -75,6 +81,7 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
+    @CacheEvict(value="Wine", key="#id")
     public Wine delete(Long id) {
         Wine wine = this.findById(id);
         this.wineRepository.delete(wine);

@@ -9,6 +9,9 @@ import com.petarangela.wineeshop.repository.CategoryRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.TypeService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,11 +32,13 @@ public class TypeServiceImpl implements TypeService {
 
 
     @Override
+    @Cacheable(value="Type")
     public List<Type> listAllTypes() {
         return this.typeRepository.findAll();
     }
 
     @Override
+    @Cacheable(value="Type", key="#id")
     public Type findById(Long id) {
         return this.typeRepository.findById(id).orElseThrow(() -> new InvalidTypeIdException(id));
     }
@@ -49,6 +54,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @CachePut(value="Type", key="#id")
     public Type update(Long id, String name, String description, Long categoryId) {
         if (name==null || name.isEmpty()) {
             throw new IllegalArgumentException();
@@ -59,6 +65,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    @CacheEvict(value="Type", key="#id")
     public Type delete(Long id) {
         Type type = this.findById(id);
         List<Wine> wines = this.wineRepository.findAll();
