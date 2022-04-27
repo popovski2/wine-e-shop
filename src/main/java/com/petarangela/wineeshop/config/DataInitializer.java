@@ -5,6 +5,7 @@ import com.petarangela.wineeshop.service.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +36,25 @@ public class DataInitializer {
 
     @PostConstruct
     public void initData() {
-        User admin = this.userService.register("petarangela@gmail.com", ADMIN, ADMIN, ADMIN, Role.ROLE_ADMIN);
+        //User admin = this.userService.register("petarangela@gmail.com", ADMIN, ADMIN, ADMIN, Role.ROLE_ADMIN);
+
+        userService.saveRole(new UserRole(null, "ROLE_USER"));
+        userService.saveRole(new UserRole(null, "ROLE_MANAGER"));
+        userService.saveRole(new UserRole(null, "ROLE_ADMIN"));
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        List<ShoppingCart> carts = new ArrayList<>();
+        carts.add(shoppingCart);
+
+        userService.saveUser(new User(null, "Angela", "Madjar", "angela.madjar", "1234", new ArrayList<>(), carts));
+        userService.saveUser(new User(null, "Petar", "Popovski", "petar.popovski", "1234", new ArrayList<>(), carts));
+        userService.saveUser(new User(null, "Trajko", "Trajkoski", "trajko.trajkoski", "1234", new ArrayList<>(), carts));
+
+        userService.addRoleToUser("angela.madjar", "ROLE_USER");
+        userService.addRoleToUser("petar.popovski", "ROLE_MANAGER");
+        userService.addRoleToUser("trajko.trajkoski", "ROLE_ADMIN");
+        userService.addRoleToUser("trajko.trajkoski", "ROLE_USER");
+        userService.addRoleToUser("trajko.trajkoski", "ROLE_MANAGER");
 
         List<Category> categories= new ArrayList<>();
         List<Manufacturer> manufacturers = new ArrayList<>();

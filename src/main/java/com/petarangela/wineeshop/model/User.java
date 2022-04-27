@@ -1,73 +1,86 @@
 package com.petarangela.wineeshop.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-@Data
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table (name = "shop_users")
-public class User {
+public class User implements Serializable {
 
     @Id
-    private String username;
-
-    private String email;
-
-    private String password;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String name;
 
     private String surname;
 
-    private Role role;
+    private String username;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<UserRole> userRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user") //fetch = FetchType.EAGER
     private List<ShoppingCart> carts;
 
-    public User(String username, String password, String name, String surname, Role role) {
-        this.username = username;
-        this.password = password;
+    public User(String username, String name, String surname,  String password, Collection<UserRole> userRoles) {
         this.name = name;
         this.surname = surname;
-        this.role = role;
-    }
-
-    public User(String username, String email, String password, String name, String surname, Role role) {
         this.username = username;
-        this.email = email;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.role = role;
+        this.userRoles = userRoles;
     }
 
-    public User() {
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Collection<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Collection<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     public List<ShoppingCart> getCarts() {
@@ -76,29 +89,5 @@ public class User {
 
     public void setCarts(List<ShoppingCart> carts) {
         this.carts = carts;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }

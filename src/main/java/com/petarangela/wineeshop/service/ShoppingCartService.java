@@ -8,12 +8,12 @@ import java.util.List;
 public interface ShoppingCartService {
 
     // return all items in a shopping cart
-    List<Wine> listAllWinesInShoppingCart(Long cartId);
+    //List<Wine> listAllWinesInShoppingCart(Long cartId);
 
     // take the active cart
-    ShoppingCart getActiveShoppingCart(String username);
+    //ShoppingCart getActiveShoppingCart(String username);
 
     // add wine into cart (finding the active cart with the user's username)
-    ShoppingCart addProductToShoppingCart(String username, Long productId);
+    //ShoppingCart addProductToShoppingCart(String username, Long productId);
 
 }

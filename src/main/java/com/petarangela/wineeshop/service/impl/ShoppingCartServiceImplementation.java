@@ -30,10 +30,10 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
     }
 
 
-    @Override
+  /*  @Override
     public List<Wine> listAllWinesInShoppingCart(Long cartId) {
-        /*if(!this.shoppingCartRepository.findById(cartId).isPresent())
-            throw new CartNotFoundException(cartId);*/
+        //if(!this.shoppingCartRepository.findById(cartId).isPresent())
+        //    throw new CartNotFoundException(cartId);
         ShoppingCart cart = this.shoppingCartRepository.findById(cartId).orElseThrow(() -> new CartNotFoundException(cartId));
         return cart.getWines();
     }
@@ -41,7 +41,9 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
     @Override
     public ShoppingCart getActiveShoppingCart(String email) {
 
-        User u = this.userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));;
+
+        User u = this.userRepository.findByEmail(email);
+                //orElseThrow(() -> new UserNotFoundException(email));;
 
         return this.shoppingCartRepository
                 .findByUserAndStatus(u, ShoppingCartStatus.CREATED)
@@ -68,5 +70,5 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
         shoppingCart.getWines().add(wine);
         return this.shoppingCartRepository.save(shoppingCart);
 
-    }
+    }*/
 }
