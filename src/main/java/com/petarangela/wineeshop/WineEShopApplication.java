@@ -3,6 +3,7 @@ package com.petarangela.wineeshop;
 import com.petarangela.wineeshop.model.User;
 import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.service.UserService;
+import org.soulwing.jwt.api.JWTProvider;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

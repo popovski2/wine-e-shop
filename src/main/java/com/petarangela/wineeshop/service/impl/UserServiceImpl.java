@@ -52,12 +52,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         // looping over all the roles of the user and for every single one, we're creating a simple granted authority by passing the role name
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        /*Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getUserRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
+        });*/
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 
     @Override

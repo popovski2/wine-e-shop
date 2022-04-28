@@ -35,7 +35,14 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user") //fetch = FetchType.EAGER
     private List<ShoppingCart> carts;
 
-    public User(String username, String name, String surname,  String password, Collection<UserRole> userRoles) {
+    public User(String name, String surname, String username, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String name, String surname, String password, Collection<UserRole> userRoles) {
         this.name = name;
         this.surname = surname;
         this.username = username;

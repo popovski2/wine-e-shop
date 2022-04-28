@@ -1,35 +1,66 @@
 package com.petarangela.wineeshop.config;
 
-import com.petarangela.wineeshop.filter.CustomAuthenticationFilter;
-//import com.petarangela.wineeshop.filter.CustomAuthorizationFilter;
-import com.petarangela.wineeshop.filter.CustomUsernamePasswordAuthenticationProvider;
-import lombok.RequiredArgsConstructor;
+
+import com.petarangela.wineeshop.service.impl.UserServiceImpl;
+import com.petarangela.wineeshop.web.filter.JwtFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserServiceImpl userDetailsService;
+
+    @Autowired
+    private JwtFilter jwtFilter;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeRequests().antMatchers("/api/auth/authenticate")
+                .permitAll().anyRequest().authenticated()
+                .and().exceptionHandling().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);;
+    }
+
    // private final UserDetailsService userDetailsService;
-   private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+   //private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
+   //private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
+    /*@Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -37,18 +68,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //web.ignoring().antMatchers("/**");
        web.ignoring()
                .antMatchers("/h2/**");
-    }
+    }*/
 
    /* @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }*/
 
-    @Override
+    /*@Override
     protected void configure(HttpSecurity http) throws Exception {
         // we want to use a token system by configuring the http security
         // ORDER MATTERS !!!
-    /*    CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+       CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/api/login"); // override the default /login to be /api/login
 
         // disable cross-site forgery
@@ -66,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilter(customAuthenticationFilter); // auth filter to check the user whenever he tries to login
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-*/
+
 
         http.csrf().disable()
                 .authorizeRequests()
@@ -91,9 +122,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    }
+    }*/
 
-    @Override
+    /* @Override
     protected void configure(AuthenticationManagerBuilder auth) {
 //        auth.inMemoryAuthentication()
 //                .withUser("kostadin.mishev")
