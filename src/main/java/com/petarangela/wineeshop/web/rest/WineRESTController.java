@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/wines")
@@ -27,13 +28,13 @@ public class WineRESTController {
         return new ResponseEntity<>(wines, HttpStatus.OK);
     }
 
-    /** WORKS !*/
+  /*  *//** WORKS !*//*
     @GetMapping("/find/{id}")
     public ResponseEntity<Wine> getWineById(@PathVariable("id") Long id){
-        Wine wine = this.wineService.findById(id);
+        Optional<Wine> wine = this.wineService.findById(id);
         return new ResponseEntity<>(wine, HttpStatus.OK);
     }
-
+*/
 
     /**  WORKS !*/
     @PostMapping("/add")

@@ -30,7 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
-    /** FIND CATEGORY BY ID */
+    /** FIND CATEGORY BY ID
+     * @return*/
     @Override
     public Category findById(Long id) {
         return this.categoryRepository.findById(id).orElseThrow(() -> new InvalidCategoryIdException(id));
@@ -43,7 +44,8 @@ public class CategoryServiceImpl implements CategoryService {
         return this.categoryRepository.findAll();
     }
 
-    /** CREATE CATEGORY */
+    /** CREATE CATEGORY
+     * @return*/
     @Override
     public Category create(String name) {
 
@@ -55,7 +57,8 @@ public class CategoryServiceImpl implements CategoryService {
         return this.categoryRepository.save(category);
     }
 
-    /** UPDATE CATEGORY */
+    /** UPDATE CATEGORY
+     * @return*/
     @Override
     public Category update(Long id, String name) {
         if (name==null || name.isEmpty()) {

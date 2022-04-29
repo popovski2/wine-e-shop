@@ -1,11 +1,9 @@
 package com.petarangela.wineeshop.service;
 
-import com.petarangela.wineeshop.model.Category;
-import com.petarangela.wineeshop.model.Manufacturer;
-import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WineService {
 
@@ -13,7 +11,7 @@ public interface WineService {
     List<Wine> listAllWines();
 
     // find a wine by its id
-    Wine findById(Long id);
+    Optional<Wine> findById(Long id);
 
     // create a new wine and save it to the DB
     Wine create(String name, Double price, Integer quantity, String url, Long categoryId, Long manufacturerId, Long typeId);
@@ -29,5 +27,6 @@ public interface WineService {
 
     // find all wines that have specific TYPE ID
     //List<Wine> listWinesByType(Long typeId);
+    void deleteById(Long id);
 
 }

@@ -4,10 +4,7 @@ import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Manufacturer;
 import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
-import com.petarangela.wineeshop.model.exceptions.CategoryNotFoundException;
-import com.petarangela.wineeshop.model.exceptions.InvalidWineIdException;
-import com.petarangela.wineeshop.model.exceptions.ManufacturerNotFoundException;
-import com.petarangela.wineeshop.model.exceptions.TypeNotFoundException;
+import com.petarangela.wineeshop.model.exceptions.*;
 import com.petarangela.wineeshop.repository.CategoryRepository;
 import com.petarangela.wineeshop.repository.ManufacturerRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WineServiceImpl implements WineService {
@@ -41,8 +39,8 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
-    public Wine findById(Long id) {
-        return this.wineRepository.findById(id).orElseThrow(() -> new InvalidWineIdException(id));
+    public Optional<Wine> findById(Long id) {
+        return Optional.ofNullable(this.wineRepository.findById(id).orElseThrow(() -> new InvalidWineIdException(id)));
     }
 
     @Override
@@ -63,7 +61,7 @@ public class WineServiceImpl implements WineService {
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
         Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId).orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
 
-        Wine wine = this.findById(id);
+        Wine wine = this.findById(id).orElseThrow(() -> new WineNotFoundException(id));
         wine.setName(name);
         wine.setPrice(price);
         wine.setQuantity(quantity);
@@ -77,9 +75,14 @@ public class WineServiceImpl implements WineService {
 
     @Override
     public Wine delete(Long id) {
-        Wine wine = this.findById(id);
+        Wine wine = this.findById(id).orElseThrow(() -> new WineNotFoundException(id));
         this.wineRepository.delete(wine);
         return wine;
+    }
+
+    @Override
+    public void deleteById(Long id){
+         this.wineRepository.deleteById(id);
     }
 
     @Override

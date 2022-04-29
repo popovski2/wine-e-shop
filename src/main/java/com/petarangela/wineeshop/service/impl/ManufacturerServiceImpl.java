@@ -28,7 +28,8 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         return this.manufacturerRepository.findAll();
     }
 
-    /** FIND  MANUFACTURER BY ID */
+    /** FIND  MANUFACTURER BY ID
+     * @return*/
     @Override
     public Manufacturer findById(Long id) {
         return this.manufacturerRepository.findById(id).orElseThrow(() -> new InvalidManufacturerIdException(id));
@@ -41,7 +42,8 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         return this.manufacturerRepository.save(new Manufacturer(name,address));
     }
 
-    /** CREATE MANUFACTURER */
+    /** CREATE MANUFACTURER
+     * @return*/
     @Override
     public Manufacturer create(String name, String address) {
         Manufacturer manufacturer = new Manufacturer(name, address);

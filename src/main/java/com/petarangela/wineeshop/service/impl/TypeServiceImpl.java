@@ -11,7 +11,6 @@ import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.TypeService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;

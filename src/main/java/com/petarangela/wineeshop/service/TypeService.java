@@ -1,6 +1,5 @@
 package com.petarangela.wineeshop.service;
 
-import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
 

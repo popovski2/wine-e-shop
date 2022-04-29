@@ -80,6 +80,7 @@ public class LoginController {
             //put it to redis
             request.getSession().setAttribute("username",session.getAttribute("username"));
 
+
             return "redirect:/api/wines/all";
         }
         catch (InvalidUserCredentialsException exception) {

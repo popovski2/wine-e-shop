@@ -45,7 +45,7 @@ public class UserRESTController extends LoginController {
     @GetMapping("get/user")
     public ResponseEntity<LoggedinUser> getLoggedinUser(){
 
-        //System.out.println();
+        System.out.println();
 
         String username = getUsernameFromSession();
         Role role = this.userService.getUser(username).getRole();

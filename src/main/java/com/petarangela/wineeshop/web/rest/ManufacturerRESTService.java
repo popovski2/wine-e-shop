@@ -26,7 +26,7 @@ public class ManufacturerRESTService {
         List<Manufacturer> manufacturers = this.manufacturerService.findAll();
         return new ResponseEntity<>(manufacturers, HttpStatus.OK);
     }
-
+/*
     // WORKS !
     @GetMapping("/find/{id}")
     public ResponseEntity<Manufacturer> getManufacturerById(@PathVariable("id") Long id){
@@ -42,9 +42,9 @@ public class ManufacturerRESTService {
         Manufacturer newManufacturer = this.manufacturerService.create(name, address);
         System.out.println(newManufacturer);
         return new ResponseEntity<>(newManufacturer, HttpStatus.CREATED);
-    }
+    }*/
 
-    // WORKS !
+  /*  // WORKS !
     @PutMapping("/update/{id}")
     public ResponseEntity<Manufacturer> updateManufacturer(@PathVariable Long id,
                                            @RequestParam(required = false) String name,
@@ -52,7 +52,7 @@ public class ManufacturerRESTService {
 
         Manufacturer updatedManufacturer = this.manufacturerService.save(name, address);
         return new ResponseEntity<>(updatedManufacturer,HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteManufacturer(@PathVariable("id") Long id){

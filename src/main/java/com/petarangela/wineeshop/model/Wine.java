@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Wine implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
