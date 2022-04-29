@@ -52,13 +52,13 @@ public class UserRESTController {
         return ResponseEntity.created(uri).body(userService.saveRole(role));
     }
 
-    @PostMapping("/addRoleToUser")
+ /*   @PostMapping("/addRoleToUser")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();
     }
-
-    @GetMapping("/token/refresh")
+*/
+   /* @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) { // whenever we are going to send a request from Angular, we'll be sending the string Bearer + the token
@@ -96,7 +96,7 @@ public class UserRESTController {
             throw new RuntimeException("Refresh token is missing");
         }
     }
-
+*/
 
 /*    @PostMapping("/registerUser")
     public ResponseEntity<User> registerUser(@RequestBody User user){

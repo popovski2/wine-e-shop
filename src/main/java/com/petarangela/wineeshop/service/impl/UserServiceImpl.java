@@ -1,5 +1,6 @@
 package com.petarangela.wineeshop.service.impl;
 
+import com.petarangela.wineeshop.model.Role;
 import com.petarangela.wineeshop.model.User;
 import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.model.exceptions.InvalidArgumentsException;
@@ -8,6 +9,8 @@ import com.petarangela.wineeshop.repository.UserRepository;
 import com.petarangela.wineeshop.repository.UserRoleRepository;
 import com.petarangela.wineeshop.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,10 +48,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
-            log.error("User not found in the database");
+            //log.error("User not found in the database");
             throw new UsernameNotFoundException("username");
         } else {
-            log.info("User {} found in the database", username);
+            //log.info("User {} found in the database", username);
         }
 
         // looping over all the roles of the user and for every single one, we're creating a simple granted authority by passing the role name
@@ -62,34 +65,34 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User saveUser(User user) {
-        log.info("Saving new user {} to the DB", user.getName());
+        //log.info("Saving new user {} to the DB", user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     public UserRole saveRole(UserRole role) {
-        log.info("Saving new role {} to the DB", role.getName());
+        //log.info("Saving new role {} to the DB", role.getName());
         return roleRepository.save(role);
     }
 
-    @Override
+   /* @Override
     public void addRoleToUser(String username, String roleName) {
-        log.info("Adding role {} to user {}", roleName, username);
+       // log.info("Adding role {} to user {}", roleName, username);
         User user = userRepository.findByUsername(username);
         UserRole role = roleRepository.findByName(roleName);
         user.getUserRoles().add(role);
-    }
+    }*/
 
     @Override
     public User getUser(String username) {
-        log.info("Fetching user {}", username);
+       // log.info("Fetching user {}", username);
         return userRepository.findByUsername(username);
     }
 
     @Override
     public List<User> getUsers() {
-        log.info("Fetching all users");
+        // log.info("Fetching all users");
         return userRepository.findAll();
     }
 
@@ -130,7 +133,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     *********************************************************************************************************************/
     @Override
-    public User register(String username, String password, String name, String surname, List<UserRole> roles) {
+    public User register(String username, String password, String name, String surname) {
         if (username==null || username.isEmpty()  || password==null || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
@@ -142,7 +145,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         // KAKO TRET ARGUMENT PRAKJAME CUSTOMER ZA DA NE MOZE DA SE KREIRA NOV ADMIN
         String encryptedPassword = this.passwordEncoder.encode(password);
-        User user = new User(username,encryptedPassword, name, surname, roles);
+        /*List<UserRole> roles = new ArrayList<>();
+        roles.add(new UserRole("CUSTOMER"));*/
+        User user = new User(username,encryptedPassword, name, surname, Role.ROLE_CUSTOMER);
         return userRepository.save(user);
     }
 

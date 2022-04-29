@@ -1,3 +1,4 @@
+/*
 package com.petarangela.wineeshop.web.rest;
 
 import com.petarangela.wineeshop.model.AuthRequest;
@@ -16,12 +17,9 @@ public class AuthRESTController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/api/")
-    public String welcome() {
-        return "Welcome to javatechie !!";
-    }
 
-    @PostMapping("/authenticate")
+  */
+/*  @PostMapping("/authenticate")
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {
             authenticationManager.authenticate(
@@ -32,5 +30,7 @@ public class AuthRESTController {
         }
         return jwtUtil.generateToken(authRequest.getUserName());
     }
+*//*
 
 }
+*/

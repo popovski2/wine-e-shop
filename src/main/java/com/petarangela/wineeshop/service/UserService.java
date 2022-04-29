@@ -15,7 +15,7 @@ public interface UserService extends UserDetailsService {
 
     UserRole saveRole(UserRole role);
 
-    void addRoleToUser(String username, String roleName);
+   // void addRoleToUser(String username, String roleName);
 
     User getUser(String username);
 
@@ -23,7 +23,7 @@ public interface UserService extends UserDetailsService {
 
     // Optional<User> login(String email, String password);
 
-     User register(String email, String password, String name, String surname, List<UserRole> role);
+    User register(String email, String password, String name, String surname);
 
     User login(String username, String password);
 

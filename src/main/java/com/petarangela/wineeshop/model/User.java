@@ -29,26 +29,33 @@ public class User implements Serializable {
 
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<UserRole> userRoles = new ArrayList<>();
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
+
+
+  /*  @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<UserRole> userRoles = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "user") //fetch = FetchType.EAGER
     private List<ShoppingCart> carts;
 
-    public User(String name, String surname, String username, String password) {
-        this.name = name;
-        this.surname = surname;
+    public User(String username, String password, String name, String surname, Role role) {
         this.username = username;
         this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.role = role;
     }
 
+/*
     public User(String username, String name, String surname, String password, Collection<UserRole> userRoles) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.userRoles = userRoles;
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -82,14 +89,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Collection<UserRole> getUserRoles() {
+  /*  public Collection<UserRole> getUserRoles() {
         return userRoles;
     }
 
     public void setUserRoles(Collection<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
-
+*/
     public List<ShoppingCart> getCarts() {
         return carts;
     }
