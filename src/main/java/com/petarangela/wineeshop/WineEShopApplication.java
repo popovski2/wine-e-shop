@@ -6,15 +6,23 @@ import com.petarangela.wineeshop.service.UserService;
 import com.petarangela.wineeshop.web.controllers.LoginController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.RedisConnectionFailureException;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.data.redis.config.annotation.SpringSessionRedisConnectionFactory;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -47,37 +55,85 @@ public class WineEShopApplication {
 	public LettuceConnectionFactory connectionFactory() {
 		return new LettuceConnectionFactory();
 	}*/
-	@Bean
+	/*@Bean
 	public RedisHttpSessionConfiguration redisHttpSessionConfiguration(){
+		jedisConnectionFactory();
+		redisTemplate();
 		return new RedisHttpSessionConfiguration();
 	}
-	@Bean
+	*/
+	/*@Bean
 	JedisConnectionFactory jedisConnectionFactory() {
-		return new JedisConnectionFactory();
-	}
+	*//*	RedisStandaloneConfiguration a = new RedisStandaloneConfiguration();
+		a.setPort(6379);
+		a.setHostName("localhost");
+		return new JedisConnectionFactory(a);*//*
+		JedisConnectionFactory jedisConnectionFactory = null;
 
-	@Bean
-	RedisTemplate<String, User> redisTemplate() {
-		RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setConnectionFactory(jedisConnectionFactory());
-		return redisTemplate;
-	}
+		try {
+			RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+			redisStandaloneConfiguration.setDatabase(0);
+			redisStandaloneConfiguration.setHostName("localhost");
+			redisStandaloneConfiguration.setPort(6379);
 
-/*
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/*")
-						.allowedHeaders("*")
-						//.allowedOrigins("*")
-						.allowedMethods("*")
-						.allowCredentials(true);
-			}
-		};
+			jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
+
+			jedisConnectionFactory.getPoolConfig().setMaxTotal(50);
+			jedisConnectionFactory.getPoolConfig().setMaxIdle(50);
+		} catch (RedisConnectionFailureException e) {
+			e.getMessage();
+		}
+
+		return jedisConnectionFactory;
 	}
 */
+	/*@Bean
+	@ConditionalOnMissingBean(name = "redisTemplate")
+	RedisTemplate<String, Object> redisTemplate() {
+	*//*	RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(jedisConnectionFactory());
+		return redisTemplate;*//*
+
+			final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+			template.setConnectionFactory(jedisConnectionFactory());
+			template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
+			template.setEnableTransactionSupport(true);
+			return template;
+
+	}
+*/
+
+//	private RedisProperties redisProperties;
+//	@Bean
+//	JedisConnectionFactory jedisConnectionFactory() {
+//		//log.info("redis host: "+redisProperties.getHost()+", port: "+redisProperties.getPort()+", password: "+redisProperties.getPassword());
+//		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisProperties.getHost(), redisProperties.getPort());
+//		redisStandaloneConfiguration.setPassword(redisProperties.getPassword());
+//		JedisClientConfiguration.JedisClientConfigurationBuilder builder = JedisClientConfiguration
+//				.builder()
+//				.connectTimeout(redisProperties.getTimeout())
+//				.readTimeout(redisProperties.getJedis().getPool().getMaxWait());
+//		if (redisProperties.isSsl())
+//			builder.useSsl();
+//		// Final JedisClientConfiguration
+//		JedisClientConfiguration clientConfig = builder.build();//.usePooling().build();
+//		//TODO: Later: Add configurations for connection pool sizing.
+//		//Create JedisConnectionFactory
+//		return new JedisConnectionFactory(redisStandaloneConfiguration, clientConfig);
+//	}
+//	@Bean
+//	public RedisTemplate<Object, Object> redisTemplate() {
+//		RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
+//		JedisConnectionFactory factory = jedisConnectionFactory();
+//		template.setConnectionFactory(jedisConnectionFactory());
+//		return template;
+//	}
+/*	  @Bean public RedisTemplate<String, Object> redisTemplate() {
+		  RedisTemplate<String, Object> template = new RedisTemplate<>();
+		  template.setConnectionFactory(jedisConnectionFactory());
+		  return template;
+	  }*/
+
 
 
 
@@ -101,24 +157,5 @@ public class WineEShopApplication {
 		return new CorsFilter(urlBasedCorsConfigurationSource);
 	}
 
-
-	/* @Bean
-	CommandLineRunner run(UserService userService) {
-		return args -> {
-			userService.saveRole(new UserRole(null, "ROLE_USER"));
-			userService.saveRole(new UserRole(null, "ROLE_MANAGER"));
-			userService.saveRole(new UserRole(null, "ROLE_ADMIN"));
-
-			userService.saveUser(new User(null, "Angela", "Madjar", "angela.madjar", "1234", new ArrayList<>(), new ArrayList<>()));
-			userService.saveUser(new User(null, "Petar", "Popovski", "petar.popovski", "1234", new ArrayList<>(), new ArrayList<>()));
-			userService.saveUser(new User(null, "Trajko", "Trajkoski", "trajko.trajkoski", "1234", new ArrayList<>(), new ArrayList<>()));
-
-			userService.addRoleToUser("angela.madjar", "ROLE_USER");
-			userService.addRoleToUser("petar.popovski", "ROLE_MANAGER");
-			userService.addRoleToUser("trajko.trajkoski", "ROLE_ADMIN");
-			userService.addRoleToUser("trajko.trajkoski", "ROLE_USER");
-			userService.addRoleToUser("trajko.trajkoski", "ROLE_MANAGER");
-		};
-	}*/
 
 }
