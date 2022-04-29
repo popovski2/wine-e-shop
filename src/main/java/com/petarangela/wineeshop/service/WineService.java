@@ -18,7 +18,7 @@ public interface WineService {
     Wine create(String name, Double price, Integer quantity, String url, Long categoryId, Long manufacturerId, Long typeId);
 
     // update a wine with specific id and save the changes to the DB
-    Wine update(Long id, String name, Double price, Integer quantity, Long categoryId, Long manufacturerId, Long typeId);
+    Wine update(Long id, String name, Double price, Integer quantity, String imageUrl, Long categoryId, Long manufacturerId, Long typeId);
 
     // delete a wine with specific id and update the DB
     Wine delete(Long id);

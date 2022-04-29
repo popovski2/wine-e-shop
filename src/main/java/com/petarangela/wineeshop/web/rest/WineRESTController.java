@@ -40,6 +40,7 @@ public class WineRESTController {
     public ResponseEntity<Wine> save(   @RequestParam String name,
                                         @RequestParam Double price,
                                         @RequestParam Integer quantity,
+                                        @RequestParam String imageUrl,
                                         @RequestParam Long categoryId,
                                         @RequestParam Long manufacturerId,
                                         @RequestParam Long typeId
@@ -50,7 +51,7 @@ public class WineRESTController {
                 .map(wine -> ResponseEntity.ok().body(wine))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
 */
-        Wine newWine = this.wineService.create(name,price,quantity,categoryId,manufacturerId,typeId);
+        Wine newWine = this.wineService.create(name, price, quantity, imageUrl, categoryId, manufacturerId, typeId);
         System.out.println(newWine);
        return new ResponseEntity<>(newWine,HttpStatus.CREATED);
     }
@@ -71,6 +72,7 @@ public class WineRESTController {
                 wine.getName(),
                 wine.getPrice(),
                 wine.getQuantity(),
+                wine.getImageUrl(),
                 wine.getCategory().getId(),
                 wine.getManufacturer().getId(),
                 wine.getType().getId());
@@ -82,15 +84,16 @@ public class WineRESTController {
     /** WORKS !*/
     @PutMapping("/update/{id}")
     public ResponseEntity<Wine> updateWine(@PathVariable Long id,
-                                           @RequestParam(required = false) String name,
-                                           @RequestParam(required = false) Double price,
-                                           @RequestParam(required = false) Integer quantity,
-                                           @RequestParam(required = false) Long categoryId,
-                                           @RequestParam(required = false) Long manufacturerId,
-                                           @RequestParam(required = false) Long typeId){
+                                           @RequestParam String name,
+                                           @RequestParam Double price,
+                                           @RequestParam Integer quantity,
+                                           @RequestParam String imageUrl,
+                                           @RequestParam Long categoryId,
+                                           @RequestParam Long manufacturerId,
+                                           @RequestParam Long typeId){
 
 
-        Wine updatedWine = this.wineService.update(id,name,price,quantity,categoryId,manufacturerId,typeId);
+        Wine updatedWine = this.wineService.update(id,name,price,quantity,imageUrl,categoryId,manufacturerId,typeId);
         return new ResponseEntity<>(updatedWine,HttpStatus.OK);
     }
 

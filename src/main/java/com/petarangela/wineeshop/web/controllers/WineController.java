@@ -39,13 +39,13 @@ public class WineController {
     }
 
 
-    public String create(String name, Double price, Integer quantity, Long categoryId, Long manufacturerId,Long typeId) {
-        this.service.create(name,price,quantity,categoryId,manufacturerId,typeId);
+    public String create(String name, Double price, Integer quantity,String imageUrl, Long categoryId, Long manufacturerId,Long typeId) {
+        this.service.create(name,price,quantity,imageUrl,categoryId,manufacturerId,typeId);
         return "";
     }
 
-    public String update(Long id, String name, Double price, Integer quantity, Long categoryId, Long manufacturerId,Long typeId) {
-        this.service.update(id,name,price,quantity,categoryId,manufacturerId,typeId);
+    public String update(Long id, String name, Double price, Integer quantity,String imageUrl, Long categoryId, Long manufacturerId,Long typeId) {
+        this.service.update(id,name,price,quantity,imageUrl,categoryId,manufacturerId,typeId);
         return "";
     }
 
