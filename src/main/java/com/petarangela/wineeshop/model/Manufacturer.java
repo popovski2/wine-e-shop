@@ -21,6 +21,12 @@ public class Manufacturer implements Serializable {
         this.address = address;
     }
 
+    public Manufacturer(String name) {
+        this.name = name;
+    }
+
+
+
     public Manufacturer() {
     }
 

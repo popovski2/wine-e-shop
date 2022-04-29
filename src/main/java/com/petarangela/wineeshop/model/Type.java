@@ -35,6 +35,9 @@ public class Type implements Serializable {
         this.name = name;
         this.description = description;
     }
+    public Type(String name) {
+        this.name = name;
+    }
 
     public Type() {
     }

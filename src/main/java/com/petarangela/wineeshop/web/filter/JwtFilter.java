@@ -1,3 +1,4 @@
+/*
 package com.petarangela.wineeshop.web.filter;
 
 import com.petarangela.wineeshop.service.UserService;
@@ -53,4 +54,4 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
-}
+}*/

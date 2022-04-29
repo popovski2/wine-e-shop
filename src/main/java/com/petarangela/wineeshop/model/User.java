@@ -97,6 +97,16 @@ public class User implements Serializable {
         this.userRoles = userRoles;
     }
 */
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public List<ShoppingCart> getCarts() {
         return carts;
     }

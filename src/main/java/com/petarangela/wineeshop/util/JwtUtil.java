@@ -1,3 +1,4 @@
+/*
 package com.petarangela.wineeshop.util;
 
 import io.jsonwebtoken.Claims;
@@ -52,4 +53,4 @@ public class JwtUtil {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-}
+}*/

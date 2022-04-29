@@ -2,6 +2,7 @@ package com.petarangela.wineeshop.service;
 
 import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Manufacturer;
+import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
 
 import java.util.List;
@@ -25,5 +26,8 @@ public interface WineService {
 
     // filter the wines according to the requirements
     List<Wine> listWinesByNameAndCategory(String name, Long categoryId);
+
+    // find all wines that have specific TYPE ID
+    //List<Wine> listWinesByType(Long typeId);
 
 }

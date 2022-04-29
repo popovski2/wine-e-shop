@@ -5,11 +5,13 @@ import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
 import com.petarangela.wineeshop.model.exceptions.CategoryNotFoundException;
 import com.petarangela.wineeshop.model.exceptions.InvalidTypeIdException;
+import com.petarangela.wineeshop.model.exceptions.TypeNotFoundException;
 import com.petarangela.wineeshop.repository.CategoryRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.TypeService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,6 +76,14 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public List<Type> findAllByCategoryName(String name) {
         return this.typeRepository.findAllByCategory_Name(name);
+    }
+
+
+    /**  LIST ALL WINES THAT BELONG TO SPECIFIC TYPE*/
+    public List<Wine> listAllWines(Long typeId){
+        Type type = this.typeRepository.findById(typeId).orElseThrow(() -> new TypeNotFoundException(typeId));
+        return  this.wineRepository.findAllByType(type);
+
     }
 
 

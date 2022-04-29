@@ -3,13 +3,20 @@ package com.petarangela.wineeshop;
 import com.petarangela.wineeshop.model.User;
 import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.service.UserService;
+import com.petarangela.wineeshop.web.controllers.LoginController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -22,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @SpringBootApplication
+@EnableCaching
+@EnableRedisHttpSession
 public class WineEShopApplication {
 
 	public static void main(String[] args) {
@@ -32,6 +41,26 @@ public class WineEShopApplication {
 	@Bean
 	public PasswordEncoder passwordEncoder() throws UnsupportedEncodingException {
 		return new BCryptPasswordEncoder(11, new SecureRandom("seed".getBytes("UTF-8")));
+	}
+/*
+	@Bean
+	public LettuceConnectionFactory connectionFactory() {
+		return new LettuceConnectionFactory();
+	}*/
+	@Bean
+	public RedisHttpSessionConfiguration redisHttpSessionConfiguration(){
+		return new RedisHttpSessionConfiguration();
+	}
+	@Bean
+	JedisConnectionFactory jedisConnectionFactory() {
+		return new JedisConnectionFactory();
+	}
+
+	@Bean
+	RedisTemplate<String, User> redisTemplate() {
+		RedisTemplate<String, User> redisTemplate = new RedisTemplate<>();
+		redisTemplate.setConnectionFactory(jedisConnectionFactory());
+		return redisTemplate;
 	}
 
 /*

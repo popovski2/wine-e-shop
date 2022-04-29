@@ -1,6 +1,7 @@
 package com.petarangela.wineeshop.web.rest;
 
 import com.petarangela.wineeshop.model.Type;
+import com.petarangela.wineeshop.model.Wine;
 import com.petarangela.wineeshop.service.TypeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,13 @@ public class TypeRESTController {
     public ResponseEntity<List<Type>> getAllTypes(){
         List<Type> types = this.typeService.listAllTypes();
         return new ResponseEntity<>(types, HttpStatus.OK);
+    }
+
+    /** GET ALL WINES THAT BELONG TO THIS TYPE */
+    @GetMapping("/allWines/{typeId}")
+    public ResponseEntity<List<Wine>> getAllWines(@PathVariable Long typeId){
+        List<Wine> wines = this.typeService.listAllWines(typeId);
+        return new ResponseEntity<>(wines, HttpStatus.OK);
     }
 
     // WORKS !

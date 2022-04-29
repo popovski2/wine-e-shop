@@ -1,3 +1,4 @@
+/*
 package com.petarangela.wineeshop.model;
 
 import lombok.AllArgsConstructor;
@@ -27,4 +28,4 @@ public class AuthRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-}
+}*/

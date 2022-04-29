@@ -1,37 +1,27 @@
 package com.petarangela.wineeshop.web.rest;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.petarangela.wineeshop.model.Role;
+import com.petarangela.wineeshop.model.ShoppingCart;
 import com.petarangela.wineeshop.model.User;
 import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.service.UserService;
+import com.petarangela.wineeshop.web.controllers.LoginController;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.net.URI;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.Arrays.stream;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserRESTController {
+public class UserRESTController extends LoginController {
 
     private final UserService userService;
 
     public UserRESTController(UserService userService) {
+        super(userService);
         this.userService = userService;
     }
 
@@ -50,6 +40,31 @@ public class UserRESTController {
     public ResponseEntity<UserRole> saveRole(@RequestBody UserRole role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/save/role").toUriString());
         return ResponseEntity.created(uri).body(userService.saveRole(role));
+    }
+
+    @GetMapping("get/user")
+    public ResponseEntity<LoggedinUser> getLoggedinUser(){
+
+
+        String username = getUsernameFromSession();
+        Role role = this.userService.getUser(username).getRole();
+        List<ShoppingCart> shoppingCart = this.userService.getUser(username).getCarts();
+
+        return ResponseEntity.ok().body(new LoggedinUser(username, role, shoppingCart));
+
+
+    }
+
+    private class LoggedinUser {
+        private String username;
+        private Role role;
+        private List<ShoppingCart> shoppingCart;
+
+        public LoggedinUser(String username, Role role, List<ShoppingCart> shoppingCart) {
+            this.username = username;
+            this.role = role;
+            this.shoppingCart = shoppingCart;
+        }
     }
 
  /*   @PostMapping("/addRoleToUser")
