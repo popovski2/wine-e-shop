@@ -15,7 +15,7 @@ public interface WineService {
     Wine findById(Long id);
 
     // create a new wine and save it to the DB
-    Wine create(String name, Double price, Integer quantity, Long categoryId, Long manufacturerId, Long typeId);
+    Wine create(String name, Double price, Integer quantity, String url, Long categoryId, Long manufacturerId, Long typeId);
 
     // update a wine with specific id and save the changes to the DB
     Wine update(Long id, String name, Double price, Integer quantity, Long categoryId, Long manufacturerId, Long typeId);

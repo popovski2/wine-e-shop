@@ -5,7 +5,6 @@ import com.petarangela.wineeshop.service.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -105,12 +104,25 @@ public class DataInitializer {
         }
 
 
+        List<String> urls = new ArrayList<>();
+        urls.add("https://8wines.com/media/catalog/product/cache/c7c042d8294616e945a4ef11616f811c/m/o/montelena_1_1.png");
+        urls.add("https://8wines.com/media/catalog/product/cache/c7c042d8294616e945a4ef11616f811c/p/a/paradigm-cabernet-sauvignon-2016.png");
+        urls.add("https://data.callmewine.com/imgprodotto/sancerre-domaine-vacheron-2020_36670.jpg");
+        urls.add("https://8wines.com/media/catalog/product/cache/c7c042d8294616e945a4ef11616f811c/c/h/chateau-leoube-sparkling-de-leoube-rose.png");
+        urls.add("https://data.callmewine.com/imgprodotto/etna-bianco-le-sabbie-delletna-firriato-2021_40784.jpg");
+        urls.add("https://data.callmewine.com/imgprodotto/etna-bianco-alta-mora-cusumano-2020_38372.jpg");
+        urls.add("https://data.callmewine.com/imgprodotto/champagne-brut-grande-reserve-potel-prieux_22511.jpg");
+        urls.add("https://data.callmewine.com/imgprodotto/champagne-brut-r-ruinart_30255.jpg");
+        urls.add("https://data.callmewine.com/imgprodotto/due-rosso-giannitessari-2019_36038.jpg");
+        urls.add("https://data.callmewine.com/imgprodotto/achille-bindi-sergardi-2020_36331.jpg");
+        urls.add("https://data.callmewine.com/imgprodotto/sangiovese-di-romagna-lona-bona-trer%C3%A8-2021_39226.jpg");
 
 
         for (int i = 1; i < 11; i++) {
             this.wineService.create("Wine " + i,
                     20.9 * i,
                     i*i,
+                     urls.get(i),
                      i % 5L + 1,
                      i % 5L + 1,
                             i % 5L + 1);
