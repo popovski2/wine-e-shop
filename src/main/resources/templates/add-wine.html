@@ -57,6 +57,7 @@
     <div class="row">
         <div class="col-md-5">
             <form action="/wines/add" method="POST">
+                <input id="id" type="hidden" name="id" th:value="(${wine} != null ? ${wine.getId()} : '')">
                 <div class="form-group">
                     <label for="name">Wine name</label>
                     <input type="text"
@@ -116,9 +117,8 @@
                     <label>Types</label>
                     <select name="typeId" id="typeId" class="form-control">
                         <option th:if="${wine} != null"
-                                th:selected="${wine.getType() != null &&
-                                wine.getType().getId() == typ.getId()}"
-                                th:each="cat : ${types}"
+                                th:selected="${wine.getType() != null && wine.getType().getId() == typ.getId()}"
+                                th:each="typ : ${types}"
                                 th:value="${typ.getId()}"
                                 th:text="${typ.getName()}">
                         </option>

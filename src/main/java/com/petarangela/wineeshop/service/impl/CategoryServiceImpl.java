@@ -9,6 +9,9 @@ import com.petarangela.wineeshop.repository.CategoryRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.CategoryService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,12 +36,14 @@ public class CategoryServiceImpl implements CategoryService {
     /** FIND CATEGORY BY ID
      * @return*/
     @Override
+   // @Cacheable(value="Category", key="#id")
     public Category findById(Long id) {
         return this.categoryRepository.findById(id).orElseThrow(() -> new InvalidCategoryIdException(id));
     }
 
     /** LIST ALL CATEGORIES */
     @Override
+    //@Cacheable(value="Category")
     public List<Category> listAll() {
 
         return this.categoryRepository.findAll();
@@ -60,6 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
     /** UPDATE CATEGORY
      * @return*/
     @Override
+    //@CachePut(value="Category", key="#id")
     public Category update(Long id, String name) {
         if (name==null || name.isEmpty()) {
             throw new IllegalArgumentException();
@@ -74,6 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /** DELETE CATEGORY */
     @Override
+   // @CacheEvict(value="Category", key="#id")
     public Category delete(String name) {
         if (name==null || name.isEmpty()) {
             throw new IllegalArgumentException();

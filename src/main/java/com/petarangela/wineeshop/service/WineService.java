@@ -1,6 +1,7 @@
 package com.petarangela.wineeshop.service;
 
 import com.petarangela.wineeshop.model.Wine;
+import com.petarangela.wineeshop.model.dto.WineDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,8 @@ public interface WineService {
 
     // update a wine with specific id and save the changes to the DB
     Wine update(Long id, String name, Double price, Integer quantity, String imageUrl, Long categoryId, Long manufacturerId, Long typeId);
+
+    Optional<Wine> update(Long id, WineDto productDto);
 
     // delete a wine with specific id and update the DB
     Wine delete(Long id);

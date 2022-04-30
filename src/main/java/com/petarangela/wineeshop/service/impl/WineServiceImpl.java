@@ -4,13 +4,17 @@ import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Manufacturer;
 import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
+import com.petarangela.wineeshop.model.dto.WineDto;
 import com.petarangela.wineeshop.model.exceptions.*;
 import com.petarangela.wineeshop.repository.CategoryRepository;
 import com.petarangela.wineeshop.repository.ManufacturerRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.WineService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,16 +38,19 @@ public class WineServiceImpl implements WineService {
 
 
     @Override
+   // @Cacheable(value="Wine")
     public List<Wine> listAllWines() {
         return this.wineRepository.findAll();
     }
 
     @Override
+    //@Cacheable(value="Wine", key="#id")
     public Optional<Wine> findById(Long id) {
         return Optional.ofNullable(this.wineRepository.findById(id).orElseThrow(() -> new InvalidWineIdException(id)));
     }
 
     @Override
+    @Transactional
     public Wine create(String name, Double price, Integer quality, String url, Long categoryId, Long manufacturerId, Long typeId) {
 
         Type type = this.typeRepository.findById(typeId).orElseThrow(() -> new TypeNotFoundException(typeId));
@@ -55,6 +62,8 @@ public class WineServiceImpl implements WineService {
     }
 
     @Override
+   // @CachePut(value="Wine", key="#id")
+    @Transactional
     public Wine update(Long id, String name, Double price, Integer quantity, String imageUrl, Long categoryId, Long manufacturerId, Long typeId) {
 
         Type type = this.typeRepository.findById(typeId).orElseThrow(() -> new TypeNotFoundException(typeId));
@@ -72,8 +81,34 @@ public class WineServiceImpl implements WineService {
 
         return this.wineRepository.save(wine);
     }
+    @Override
+    public Optional<Wine> update(Long id, WineDto wineDto) {
+        Wine wine = this.wineRepository.findById(id).orElseThrow(() -> new WineNotFoundException(id));
+
+        wine.setName(wineDto.getName());
+        wine.setPrice(wineDto.getPrice());
+        wine.setQuantity(wineDto.getQuantity());
+
+
+
+        Category category = this.categoryRepository.findById(wineDto.getCategory())
+                .orElseThrow(() -> new CategoryNotFoundException(wineDto.getCategory()));
+        wine.setCategory(category);
+
+        Manufacturer manufacturer = this.manufacturerRepository.findById(wineDto.getManufacturer())
+                .orElseThrow(() -> new ManufacturerNotFoundException(wineDto.getManufacturer()));
+        wine.setManufacturer(manufacturer);
+
+        Type type = this.typeRepository.findById(wineDto.getType())
+                .orElseThrow(() -> new TypeNotFoundException(wineDto.getType()));
+        wine.setType(type);
+
+        return Optional.of(this.wineRepository.save(wine));
+    }
+
 
     @Override
+    @CacheEvict(value="Wine", key="#id")
     public Wine delete(Long id) {
         Wine wine = this.findById(id).orElseThrow(() -> new WineNotFoundException(id));
         this.wineRepository.delete(wine);
