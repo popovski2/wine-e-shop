@@ -17,6 +17,8 @@ public class ShoppingCart {
 
     private LocalDateTime dataCreated;
 
+    private Double totalPrice;
+
     @ManyToOne
     private User user;
 
@@ -32,6 +34,7 @@ public class ShoppingCart {
         this.user = user;
         this.wines = new ArrayList<>();
         this.status = status;
+        this.totalPrice = 0.00;
     }
 
     public ShoppingCart(User user) {

@@ -55,11 +55,17 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
     public ShoppingCart addWinesToShoppingCart(String username, Long wineId) {
         ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
         Wine wine = this.wineService.findById(wineId).orElseThrow(() -> new WineNotFoundException(wineId));
+
         if(shoppingCart.getWines()
                 .stream().filter(i -> i.getId().equals(wineId))
                 .collect(Collectors.toList()).size() > 0)
             throw new ProductAlreadyInShoppingCartException(wineId, username);
         shoppingCart.getWines().add(wine);
+
+        wine.setQuantity(1);
+
+        //shoppingCart.setTotalPrice(shoppingCart.getTotalPrice() + wine.getPrice());
+
         return this.shoppingCartRepository.save(shoppingCart);
     }
 
@@ -68,6 +74,9 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
         ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
         Wine wine = this.wineService.findById(wineId).orElseThrow(() -> new WineNotFoundException(wineId));
         shoppingCart.getWines().remove(wine);
+
+        //shoppingCart.setTotalPrice(shoppingCart.getTotalPrice() - wine.getPrice());
+
         this.shoppingCartRepository.save(shoppingCart);
     }
 
@@ -75,6 +84,34 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
     public void emptyShoppingCart(String username) {
         ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
         shoppingCart.getWines().clear();
+
+        //shoppingCart.setTotalPrice(0.00);
+
+        this.shoppingCartRepository.save(shoppingCart);
+    }
+
+    @Override
+    public void increaseQuantity(String username, Long wineId) {
+        ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
+        Wine wine = this.wineService.findById(wineId).orElseThrow(() -> new WineNotFoundException(wineId));
+        wine.setQuantity(wine.getQuantity() + 1);
+
+        //shoppingCart.setTotalPrice(shoppingCart.getTotalPrice() + wine.getPrice());
+
+        this.shoppingCartRepository.save(shoppingCart);
+    }
+
+    @Override
+    public void decreaseQuantity(String username, Long wineId) {
+        ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
+        Wine wine = this.wineService.findById(wineId).orElseThrow(() -> new WineNotFoundException(wineId));
+        wine.setQuantity(wine.getQuantity() - 1);
+
+        //shoppingCart.setTotalPrice(shoppingCart.getTotalPrice() - wine.getPrice());
+
+        if (wine.getQuantity() == 0)
+            shoppingCart.getWines().remove(wine);
+
         this.shoppingCartRepository.save(shoppingCart);
     }
 

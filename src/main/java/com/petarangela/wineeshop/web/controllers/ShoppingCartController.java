@@ -33,14 +33,17 @@ public class ShoppingCartController {
         ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(username);
         model.addAttribute("wines", this.shoppingCartService.listAllWinesInShoppingCart(shoppingCart.getId()));
         model.addAttribute("bodyContent", "shopping-cart");
+        //model.addAttribute("total", 0.00);
         return "shopping-cart";
     }
 
     @PostMapping("/add-wine/{id}")
-    public String addProductToShoppingCart(@PathVariable Long id, HttpServletRequest req, Authentication authentication) {
+    public String addProductToShoppingCart(@PathVariable Long id, HttpServletRequest req, Authentication authentication, Model model) {
         try {
             User user = (User) authentication.getPrincipal();
             this.shoppingCartService.addWinesToShoppingCart(user.getUsername(), id);
+            //ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
+            //model.addAttribute("total", shoppingCart.getTotalPrice());
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception) {
             return "redirect:/shopping-cart?error=" + exception.getMessage();
@@ -48,10 +51,12 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteWine(@PathVariable Long id, Authentication authentication) {
+    public String deleteWine(@PathVariable Long id, Authentication authentication, Model model) {
         try {
             User user = (User) authentication.getPrincipal();
             this.shoppingCartService.deleteFromShoppingCart(user.getUsername(), id);
+            //ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
+            //model.addAttribute("total", shoppingCart.getTotalPrice());
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception) {
             return "redirect:/shopping-cart?error=" + exception.getMessage();
@@ -59,10 +64,38 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/emptyCart")
-    public String EmptyCart(Authentication authentication) {
+    public String EmptyCart(Authentication authentication, Model model) {
         try {
             User user = (User) authentication.getPrincipal();
             this.shoppingCartService.emptyShoppingCart(user.getUsername());
+            //ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
+            //model.addAttribute("total", shoppingCart.getTotalPrice());
+            return "redirect:/shopping-cart";
+        } catch (RuntimeException exception) {
+            return "redirect:/shopping-cart?error=" + exception.getMessage();
+        }
+    }
+
+    @PostMapping("/increaseQuantity/{id}")
+    public String IncreaseQuantity(@PathVariable Long id, Authentication authentication, Model model){
+        try {
+            User user = (User) authentication.getPrincipal();
+            this.shoppingCartService.increaseQuantity(user.getUsername(), id);
+            //ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
+            //model.addAttribute("total", shoppingCart.getTotalPrice());
+            return "redirect:/shopping-cart";
+        } catch (RuntimeException exception) {
+            return "redirect:/shopping-cart?error=" + exception.getMessage();
+        }
+    }
+
+    @PostMapping("/decreaseQuantity/{id}")
+    public String DecreaseQuantity(@PathVariable Long id, Authentication authentication, Model model){
+        try {
+            User user = (User) authentication.getPrincipal();
+            this.shoppingCartService.decreaseQuantity(user.getUsername(), id);
+            //ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
+            //model.addAttribute("total", shoppingCart.getTotalPrice());
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception) {
             return "redirect:/shopping-cart?error=" + exception.getMessage();

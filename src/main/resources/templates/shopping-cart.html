@@ -60,7 +60,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12 text-right">
+            <div class="col-md-12 text-right" th:if="${wines.size() > 0}">
                 <form th:action="@{'/shopping-cart/emptyCart'}" th:method="DELETE">
                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Empty cart</i></button>
                 </form>
@@ -83,19 +83,34 @@
                             <th scope="col">Price</th>
                             <th scope="col">Manufacturer</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="wine : ${wines}" class="cart-item">
                             <td th:text="${wine.getName()}"></td>
-                            <td th:text="${wine.getPrice()}"></td>
+                            <td th:with="sum=${wine.getPrice() * wine.getQuantity()}" th:text="${wine.getPrice() * wine.getQuantity()}"></td>
                             <td th:text="${wine.getManufacturer() != null} ? ${wine.getManufacturer().getName()} : 'No Manufacturer'"></td>
                             <td th:text="${wine.getCategory() != null} ? ${wine.getCategory().getName()} : 'No Category'"></td>
+                            <td th:text="${wine.getQuantity()}"></td>
+                            <td class="text-right">
+                                <form th:action="@{'/shopping-cart/decreaseQuantity/{id}' (id=${wine.getId()})}" th:method="POST">
+                                    <button type="submit" class="btn btn-light btn-circle btn-sm"><i class="fa fa-trash">-</i></button>
+                                </form>
+                            </td>
+                           <td class="text-right">
+                               <form th:action="@{'/shopping-cart/increaseQuantity/{id}' (id=${wine.getId()})}" th:method="POST">
+                                   <button type="submit" class="btn btn-light btn-circle btn-sm"><i class="fa fa-trash">+</i></button>
+                               </form>
+                            </td>
                             <td class="text-right">
                                 <form th:action="@{'/shopping-cart/delete/{id}' (id=${wine.getId()})}" th:method="DELETE">
                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Remove</i></button>
                                 </form>
                             </td>
+                           <!-- <td>
+                                <h5 class="text-center text-danger" th:text="${total}"></h5>
+                            </td>-->
                         </tr>
                         </tbody>
                     </table>
@@ -103,6 +118,7 @@
             </div>
         </div>
     </div>
+
 </th:block>
 
 

@@ -17,6 +17,9 @@ public interface ShoppingCartService {
 
     void emptyShoppingCart(String username);
 
+    void increaseQuantity(String username, Long wineId);
+
+    void decreaseQuantity(String username, Long wineId);
 
 
 }
