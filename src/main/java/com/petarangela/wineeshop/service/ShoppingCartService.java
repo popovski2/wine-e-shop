@@ -8,8 +8,14 @@ import java.util.List;
 public interface ShoppingCartService {
 
     List<Wine> listAllWinesInShoppingCart(Long cartId);
+
     ShoppingCart getActiveShoppingCart(String username);
+
     ShoppingCart addWinesToShoppingCart(String username, Long wineId);
+
+    void deleteFromShoppingCart(String username, Long wineId);
+
+    void emptyShoppingCart(String username);
 
 
 

@@ -58,6 +58,16 @@
         </div>
     </section>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <form th:action="@{'/shopping-cart/emptyCart'}" th:method="DELETE">
+                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Empty cart</i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div th:if="${hasError}">
         <h5 class="text-center text-danger" th:text="${error}"></h5>
     </div>
@@ -81,6 +91,11 @@
                             <td th:text="${wine.getPrice()}"></td>
                             <td th:text="${wine.getManufacturer() != null} ? ${wine.getManufacturer().getName()} : 'No Manufacturer'"></td>
                             <td th:text="${wine.getCategory() != null} ? ${wine.getCategory().getName()} : 'No Category'"></td>
+                            <td class="text-right">
+                                <form th:action="@{'/shopping-cart/delete/{id}' (id=${wine.getId()})}" th:method="DELETE">
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Remove</i></button>
+                                </form>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

@@ -63,5 +63,20 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
         return this.shoppingCartRepository.save(shoppingCart);
     }
 
+    @Override
+    public void deleteFromShoppingCart(String username, Long wineId){
+        ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
+        Wine wine = this.wineService.findById(wineId).orElseThrow(() -> new WineNotFoundException(wineId));
+        shoppingCart.getWines().remove(wine);
+        this.shoppingCartRepository.save(shoppingCart);
+    }
+
+    @Override
+    public void emptyShoppingCart(String username) {
+        ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
+        shoppingCart.getWines().clear();
+        this.shoppingCartRepository.save(shoppingCart);
+    }
+
 
 }

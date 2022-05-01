@@ -14,4 +14,6 @@ import java.util.Optional;
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart,Long> {
 
     Optional<ShoppingCart> findByUserAndStatus(User user, ShoppingCartStatus status);
+
+    //void deleteFromShoppingCart(String username, Long wineId);
 }

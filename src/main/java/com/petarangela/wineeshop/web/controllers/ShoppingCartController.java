@@ -47,5 +47,27 @@ public class ShoppingCartController {
         }
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String deleteWine(@PathVariable Long id, Authentication authentication) {
+        try {
+            User user = (User) authentication.getPrincipal();
+            this.shoppingCartService.deleteFromShoppingCart(user.getUsername(), id);
+            return "redirect:/shopping-cart";
+        } catch (RuntimeException exception) {
+            return "redirect:/shopping-cart?error=" + exception.getMessage();
+        }
+    }
+
+    @DeleteMapping("/emptyCart")
+    public String EmptyCart(Authentication authentication) {
+        try {
+            User user = (User) authentication.getPrincipal();
+            this.shoppingCartService.emptyShoppingCart(user.getUsername());
+            return "redirect:/shopping-cart";
+        } catch (RuntimeException exception) {
+            return "redirect:/shopping-cart?error=" + exception.getMessage();
+        }
+    }
+
 
 }
