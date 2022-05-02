@@ -100,7 +100,7 @@ public class DataInitializer {
         for (int i = 1; i < 11; i++) {
             Manufacturer manufacturer = new Manufacturer("Manufacturer " + i, "Address" + i);
             manufacturers.add(manufacturer);
-            this.manufacturerService.save(manufacturer.getName(),manufacturer.getAddress());
+            this.manufacturerService.create(manufacturer.getName(),manufacturer.getAddress());
         }
 
 

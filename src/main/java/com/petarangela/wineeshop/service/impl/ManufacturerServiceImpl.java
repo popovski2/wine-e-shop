@@ -1,16 +1,18 @@
 package com.petarangela.wineeshop.service.impl;
 
+import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Manufacturer;
 import com.petarangela.wineeshop.model.Wine;
+import com.petarangela.wineeshop.model.exceptions.CategoryNotFoundException;
 import com.petarangela.wineeshop.model.exceptions.InvalidManufacturerIdException;
+import com.petarangela.wineeshop.model.exceptions.ManufacturerNotFoundException;
 import com.petarangela.wineeshop.repository.ManufacturerRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.ManufacturerService;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,22 +37,27 @@ public class ManufacturerServiceImpl implements ManufacturerService {
      * @return*/
     @Override
    // @Cacheable(value="Manufacturer", key="#id")
-    public Manufacturer findById(Long id) {
-        return this.manufacturerRepository.findById(id).orElseThrow(() -> new InvalidManufacturerIdException(id));
+    public Optional<Manufacturer> findById(Long id) {
+        return Optional.ofNullable(this.manufacturerRepository.findById(id).orElseThrow(() -> new InvalidManufacturerIdException(id)));
     }
 
-    /** SAVE MANUFACTURER (UPDATE)
-     * @return*/
-    @Override
-    public Manufacturer save(String name, String address) {
-        return this.manufacturerRepository.save(new Manufacturer(name,address));
-    }
 
     /** CREATE MANUFACTURER
      * @return*/
     @Override
     public Manufacturer create(String name, String address) {
+        if (name==null || name.isEmpty() || address==null || address.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         Manufacturer manufacturer = new Manufacturer(name, address);
+        return this.manufacturerRepository.save(manufacturer);
+    }
+
+    @Override
+    public Manufacturer update(Long id, String name, String address) {
+        Manufacturer manufacturer = this.manufacturerRepository.findById(id).orElseThrow(() -> new ManufacturerNotFoundException(id));
+        manufacturer.setName(name);
+        manufacturer.setAddress(address);
         return this.manufacturerRepository.save(manufacturer);
     }
 

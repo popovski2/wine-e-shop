@@ -25,8 +25,6 @@ public class Manufacturer implements Serializable {
         this.name = name;
     }
 
-
-
     public Manufacturer() {
     }
 
@@ -40,5 +38,13 @@ public class Manufacturer implements Serializable {
 
     public String getAddress() {
         return address;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

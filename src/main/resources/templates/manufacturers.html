@@ -56,7 +56,7 @@
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
-        <h3 class="jumbotron-heading">All categories</h3>
+        <h3 class="jumbotron-heading">All manufacturers</h3>
     </div>
 </section>
 
@@ -64,30 +64,25 @@
 <div class="container mb-4">
     <div class="row">
         <!--ako ima wines togas pokazi go ovoj div-->
-        <div class="col-12" th:if="${categories.size() > 0}">
+        <div class="col-12" th:if="${manufacturers.size() > 0}">
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col">Category name</th>
-                        <th scope="col">Varieties</th>
+                        <th scope="col">Manufacturer's name</th>
+                        <th scope="col">Manufacturer's address</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="category : ${categories}">
-                        <td th:text="${category.getName()}"></td>
-                        <td>
-                            <ul th:each="type : ${'typesIn' + category.getName()}">
-                                <li th:text="${type}">
-                                </li>
-                            </ul>
-                        </td>
+                    <tr th:each="manufacturer : ${manufacturers}">
+                        <td th:text="${manufacturer.getName()}"></td>
+                        <td th:text="${manufacturer.getAddress()}"></td>
                         <td class="text-right">
-                            <form th:action="@{'/categories/delete/{id}' (id=${category.getId()})}" th:method="DELETE">
+                            <form th:action="@{'/manufacturers/delete/{id}' (id=${manufacturer.getId()})}" th:method="DELETE">
                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                             </form>
 
-                            <a th:href="@{'/categories/edit-form/{id}' (id=${category.getId()})}"
+                            <a th:href="@{'/manufacturers/edit-form/{id}' (id=${manufacturer.getId()})}"
                                class="btn btn-sm btn-info">
                                 <i class="fa fa-trash">Edit</i>
                             </a>
@@ -100,7 +95,7 @@
         <div class="col mb-3">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-                    <a href="/categories/add-form" class="btn btn-block btn-dark">Add new category</a>
+                    <a href="/manufacturers/add-form" class="btn btn-block btn-dark">Add new manufacturer</a>
                 </div>
             </div>
         </div>
