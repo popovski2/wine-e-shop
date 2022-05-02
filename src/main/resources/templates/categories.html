@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Home</title>
+    <title>Wines</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -53,8 +53,61 @@
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
+        <h3 class="jumbotron-heading">All categories</h3>
     </div>
 </section>
+
+
+<div class="container mb-4">
+    <div class="row">
+        <!--ako ima wines togas pokazi go ovoj div-->
+        <div class="col-12" th:if="${categories.size() > 0}">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Category name</th>
+                        <th scope="col">Varieties</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.getName()}"></td>
+                        <td>
+                            <ul th:each="type : ${'typesIn' + category.getName()}">
+                                <li th:text="${type}">
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="text-right">
+                            <form th:action="@{'/categories/delete/{id}' (id=${category.getId()})}" th:method="DELETE">
+                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
+                            </form>
+
+                            <a th:href="@{'/categories/edit-form/{id}' (id=${category.getId()})}"
+                               class="btn btn-sm btn-info">
+                                <i class="fa fa-trash">Edit</i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col mb-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <a href="/categories/add-form" class="btn btn-block btn-dark">Add new category</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 <!-- Footer -->
 <footer class="text-black-50 mt-xl-5">
     <div class="container">
@@ -105,5 +158,4 @@
 </footer>
 </body>
 </html>
-
 

@@ -11,9 +11,11 @@ import java.util.List;
 @RedisHash
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<Category> findAllByNameLike(String text);
-
-   // void deleteByName(String name);
+    List<Category> findAllByNameLike(String name);
 
     Category findCategoryByName(String name);
+
+    void deleteByName(String name);
+
+    void deleteById(Long id);
 }

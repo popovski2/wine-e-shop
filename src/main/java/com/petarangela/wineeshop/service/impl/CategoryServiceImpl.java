@@ -9,12 +9,11 @@ import com.petarangela.wineeshop.repository.CategoryRepository;
 import com.petarangela.wineeshop.repository.TypeRepository;
 import com.petarangela.wineeshop.repository.WineRepository;
 import com.petarangela.wineeshop.service.CategoryService;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,34 +29,30 @@ public class CategoryServiceImpl implements CategoryService {
         this.wineRepository = wineRepository;
     }
 
-
-
-
-    /** FIND CATEGORY BY ID
-     * @return*/
-    @Override
-   // @Cacheable(value="Category", key="#id")
-    public Category findById(Long id) {
-        return this.categoryRepository.findById(id).orElseThrow(() -> new InvalidCategoryIdException(id));
-    }
-
     /** LIST ALL CATEGORIES */
     @Override
-    //@Cacheable(value="Category")
     public List<Category> listAll() {
 
         return this.categoryRepository.findAll();
     }
 
+    /** FIND CATEGORY BY ID
+     * @return*/
+    @Override
+   // @Cacheable(value="Category", key="#id")
+    public Optional<Category> findById(Long id) {
+        return Optional.ofNullable(this.categoryRepository.findById(id).orElseThrow(() -> new InvalidCategoryIdException(id)));
+    }
+
     /** CREATE CATEGORY
      * @return*/
     @Override
+    @Transactional
     public Category create(String name) {
 
         if (name==null || name.isEmpty()) {
             throw new IllegalArgumentException();
         }
-     //   List<Type> types = this.typeRepository.findAllById(typesId);
         Category category = new Category(name);
         return this.categoryRepository.save(category);
     }
@@ -65,13 +60,9 @@ public class CategoryServiceImpl implements CategoryService {
     /** UPDATE CATEGORY
      * @return*/
     @Override
+    @Transactional
     //@CachePut(value="Category", key="#id")
     public Category update(Long id, String name) {
-        if (name==null || name.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-      //  List<Type> types = this.typeRepository.findAllById(typesId);
-
         Category category = this.categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
         category.setName(name);
         return this.categoryRepository.save(category);
@@ -81,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
     /** DELETE CATEGORY */
     @Override
    // @CacheEvict(value="Category", key="#id")
-    public Category delete(String name) {
+    public void deleteByName(String name) {
         if (name==null || name.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -98,15 +89,33 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
 
-        for (Type t : types) {
-            this.typeRepository.delete(t);
-        }
+        this.typeRepository.deleteAll(types);
 
         this.categoryRepository.delete(category);
-        return category;
         //this.categoryRepository.deleteByName(name);
     }
 
+    @Override
+    // @CacheEvict(value="Category", key="#id")
+    public void deleteById(Long id) {
+
+        Category category = this.categoryRepository.findById(id).orElseThrow(() -> new InvalidCategoryIdException(id));
+
+        List<Type> types = this.typeRepository.findAll();
+        types = types.stream().filter(t -> t.getCategory().getId().equals(category.getId())).collect(Collectors.toList());
+
+        List<Wine> wines = this.wineRepository.findAll();
+        for (Wine w : wines) {
+            for (Type t : types) {
+                if(w.getType().getId().equals(t.getId()))
+                    this.wineRepository.delete(w);
+            }
+        }
+        this.typeRepository.deleteAll(types);
+
+        this.categoryRepository.deleteById(id);
+        //this.categoryRepository.deleteByName(name);
+    }
 
     /** SEARCH CATEGORIES */
     @Override

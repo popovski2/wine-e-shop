@@ -16,4 +16,6 @@ public interface TypeRepository extends JpaRepository<Type,Long> {
 
     List<Type> findAllByCategory_Name(String name);
 
+    List<Type> findAllByCategory_Id(Long id);
+
 }

@@ -14,11 +14,11 @@ import java.util.List;
 @RequestMapping("/api/category")
 public class CategoryRESTController {
 
-    private final CategoryService categoryService;
+   // private final CategoryService categoryService;
 
-    public CategoryRESTController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+   // public CategoryRESTController(CategoryService categoryService) {
+   //     this.categoryService = categoryService;
+   // }
 
     /** **********************************************************************************************************
      *
@@ -27,33 +27,33 @@ public class CategoryRESTController {
      ************************************************************************************************************* */
 
     /** GET ALL CATEGORIES */
-    @GetMapping("/all")
+   /* @GetMapping("/all")
     public ResponseEntity<List<Category>> getAllCategories(){
         List<Category> categories = this.categoryService.listAll();
         return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
+    }*/
 
     /** GET ALL TYPES THAT BELONG TO THE CATEGORY */
-    @GetMapping("/types")
+    /*@GetMapping("/types")
     public ResponseEntity<List<Type>> getAllTypesOfCategory(@RequestParam String categoryName){
         List<Type> types = this.categoryService.listAllTypes(categoryName);
         return new ResponseEntity<>(types, HttpStatus.OK);
-    }
+    }*/
 
     /** FIND CATEGORY BY ID !*/
-    @GetMapping("/find/{id}")
+   /* @GetMapping("/find/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable("id") Long id){
         Category category = this.categoryService.findById(id);
         return new ResponseEntity<>(category, HttpStatus.OK);
-    }
+    }*/
 
 
     /** FIND CATEGORY BY NAME!*/
-    @GetMapping("/find/name/{name}")
+    /*@GetMapping("/find/name/{name}")
     public ResponseEntity<Category> getCategoryByName(@PathVariable("name") String name){
         Category category = this.categoryService.findByName(name);
         return new ResponseEntity<>(category, HttpStatus.OK);
-    }
+    }*/
 
     /** **********************************************************************************************************
      *
@@ -65,18 +65,18 @@ public class CategoryRESTController {
 
 
     /** ADD CATEGORY WITH URL PARAMETER*/
-    @PostMapping("/add")
+   /* @PostMapping("/add")
     public ResponseEntity<Category> save(   @RequestParam String name
                                           //  @RequestParam List<Long> typesId
     ){
             /*return this.categoryService.create(name,types)
                 .map(wine -> ResponseEntity.ok().body(wine))
-                .orElseGet(() -> ResponseEntity.badRequest().build());*/
+                .orElseGet(() -> ResponseEntity.badRequest().build());
 
         Category category = this.categoryService.create(name);
         System.out.println(category);
         return new ResponseEntity<>(category,HttpStatus.CREATED);
-    }
+    }*/
 
     /** ADD CATEGORY WITH URL PARAMETER*/
 //    @PostMapping("/add")
@@ -99,7 +99,7 @@ public class CategoryRESTController {
 
 
     /** UPDATE CATEGORY WITH URL PARAMETERS !*/
-    @PutMapping("/update")
+    /*@PutMapping("/update")
     public ResponseEntity<Category> updateCategory(
             @RequestParam Long id,
             @RequestParam String name
@@ -108,7 +108,7 @@ public class CategoryRESTController {
         Category category = this.categoryService.update(id, name);
         System.out.println(category);
         return new ResponseEntity<>(category,HttpStatus.CREATED);
-    }
+    }*/
 
 
     /** **********************************************************************************************************
@@ -119,15 +119,10 @@ public class CategoryRESTController {
 
 
     /** DELETE CATEGORY WITH NAME! */
-    @DeleteMapping("/delete/{name}")
+    /*@DeleteMapping("/delete/{name}")
     public ResponseEntity<?> deleteCategory(@PathVariable(value = "name") String name){
         this.categoryService.delete(name);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-
-
-
+    }*/
 
 }

@@ -112,6 +112,11 @@
                                 <h5 class="text-center text-danger" th:text="${total}"></h5>
                             </td>-->
                         </tr>
+                        <tr>
+                            <td>
+                                <b th:text="${#aggregates.(wines.![price])}"></b>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

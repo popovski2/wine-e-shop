@@ -77,6 +77,11 @@ public class TypeServiceImpl implements TypeService {
         return this.typeRepository.findAllByCategory_Name(name);
     }
 
+    @Override
+    public List<Type> findAllByCategoryId(Long id) {
+        return this.typeRepository.findAllByCategory_Id(id);
+    }
+
 
     /**  LIST ALL WINES THAT BELONG TO SPECIFIC TYPE*/
     public List<Wine> listAllWines(Long typeId){

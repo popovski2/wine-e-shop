@@ -25,6 +25,9 @@ public interface TypeService {
     // find  all types that belong to certain category
     List<Type> findAllByCategoryName(String name);
 
+    // find  all types that belong to certain category
+    List<Type> findAllByCategoryId(Long id);
+
     // list all wines that belong to this type
     List<Wine> listAllWines(Long typeId);
 
