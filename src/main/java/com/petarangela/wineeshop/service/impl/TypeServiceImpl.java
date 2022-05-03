@@ -13,6 +13,7 @@ import com.petarangela.wineeshop.service.TypeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,13 +36,13 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public Type findById(Long id) {
-        return this.typeRepository.findById(id).orElseThrow(() -> new InvalidTypeIdException(id));
+    public Optional<Type> findById(Long id) {
+        return Optional.ofNullable(this.typeRepository.findById(id).orElseThrow(() -> new InvalidTypeIdException(id)));
     }
 
     @Override
     public Type create(String name, String description, Long categoryId) {
-        if (name==null || name.isEmpty()) {
+        if (name==null || name.isEmpty() || description==null || description.isEmpty() || categoryId == null) {
             throw new IllegalArgumentException();
         }
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
@@ -55,27 +56,27 @@ public class TypeServiceImpl implements TypeService {
             throw new IllegalArgumentException();
         }
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
-        Type type = new Type(name,description,category);
+        Type type = this.typeRepository.findById(id).orElseThrow(() -> new TypeNotFoundException(id));
+
+        type.setName(name);
+        type.setDescription(description);
+        type.setCategory(category);
+
         return this.typeRepository.save(type);
     }
 
     @Override
-    public Type delete(Long id) {
-        Type type = this.findById(id);
+    public void deleteById(Long id) {
+        Optional<Type> type = this.findById(id);
         List<Wine> wines = this.wineRepository.findAll();
         wines = wines.stream()
                 .filter(w -> w.getType().getId().equals(id)).
                 collect(Collectors.toList());
         this.wineRepository.deleteAll(wines);
 
-        this.typeRepository.delete(type);
-        return type;
+        this.typeRepository.deleteById(type.get().getId());
     }
 
-    @Override
-    public List<Type> findAllByCategoryName(String name) {
-        return this.typeRepository.findAllByCategory_Name(name);
-    }
 
     @Override
     public List<Type> findAllByCategoryId(Long id) {

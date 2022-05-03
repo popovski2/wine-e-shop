@@ -59,7 +59,7 @@
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
-        <h3 class="jumbotron-heading">All wines</h3>
+        <h3 class="jumbotron-heading">All varieties</h3>
     </div>
 </section>
 
@@ -67,38 +67,30 @@
 <div class="container mb-4">
     <div class="row">
         <!--ako ima wines togas pokazi go ovoj div-->
-        <div class="col-12" th:if="${wines.size() > 0}">
+        <div class="col-12" th:if="${types.size() > 0}">
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col">Wine name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Variety name</th>
+                        <th scope="col">Description</th>
                         <th scope="col">Category</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="wine : ${wines}">
-                        <td th:text="${wine.getName()}"></td>
-                        <td th:text="${wine.getPrice()}"></td>
-                        <td th:text="${wine.getManufacturer() != null}
-                            ? ${wine.getManufacturer().getName()} : 'No Manufacturer'"></td>
-                        <td th:text="${wine.getCategory() != null}
-                            ? ${wine.getCategory().getName()} : 'No Category'"></td>
+                    <tr th:each="type : ${types}">
+                        <td th:text="${type.getName()}"></td>
+                        <td th:text="${type.getDescription()}"></td>
+                        <td th:text="${type.getCategory().getName()}"></td>
                         <td class="text-right">
-                            <form th:action="@{'/wines/delete/{id}' (id=${wine.getId()})}" th:method="DELETE">
+                            <form th:action="@{'/types/delete/{id}' (id=${type.getId()})}" th:method="DELETE">
                                 <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
                             </form>
 
-                            <a th:href="@{'/wines/edit-form/{id}' (id=${wine.getId()})}"
+                            <a th:href="@{'/types/edit-form/{id}' (id=${type.getId()})}"
                                class="btn btn-sm btn-info">
                                 <i class="fa fa-trash">Edit</i>
                             </a>
-
-                            <form th:action="@{'/shopping-cart/add-wine/{id}' (id=${wine.getId()})}" th:method="POST">
-                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-trash">Add wine to cart</i></button>
-                            </form>
                         </td>
                     </tr>
                     </tbody>
@@ -108,7 +100,7 @@
         <div class="col mb-3">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-                    <a href="/wines/add-form" class="btn btn-block btn-dark">Add new wine</a>
+                    <a href="/types/add-form" class="btn btn-block btn-dark">Add new type</a>
                 </div>
             </div>
         </div>

@@ -20,28 +20,28 @@ public class TypeRESTController {
     }
 
     // WORKS !
-    @GetMapping("/all")
+    /*@GetMapping("/all")
     public ResponseEntity<List<Type>> getAllTypes(){
         List<Type> types = this.typeService.listAllTypes();
         return new ResponseEntity<>(types, HttpStatus.OK);
-    }
+    }*/
 
     /** GET ALL WINES THAT BELONG TO THIS TYPE */
-    @GetMapping("/allWines/{typeId}")
+    /*@GetMapping("/allWines/{typeId}")
     public ResponseEntity<List<Wine>> getAllWines(@PathVariable Long typeId){
         List<Wine> wines = this.typeService.listAllWines(typeId);
         return new ResponseEntity<>(wines, HttpStatus.OK);
-    }
+    }*/
 
     // WORKS !
-    @GetMapping("/find/{id}")
+   /* @GetMapping("/find/{id}")
     public ResponseEntity<Type> getTypeById(@PathVariable("id") Long id){
         Type type = this.typeService.findById(id);
         return new ResponseEntity<>(type, HttpStatus.OK);
-    }
+    }*/
 
     // WORKS !
-    @PostMapping("/add")
+    /*@PostMapping("/add")
     public ResponseEntity<Type> save(   @RequestParam String name,
                                         @RequestParam String description,
                                         @RequestParam Long categoryId
@@ -49,10 +49,10 @@ public class TypeRESTController {
         Type newType = this.typeService.create(name, description, categoryId);
         System.out.println(newType);
         return new ResponseEntity<>(newType, HttpStatus.CREATED);
-    }
+    }*/
 
     // WORKS !
-    @PutMapping("/update/{id}")
+   /* @PutMapping("/update/{id}")
     public ResponseEntity<Type> updateType(@PathVariable Long id,
                                            @RequestParam(required = false) String name,
                                            @RequestParam(required = false) String description,
@@ -61,12 +61,12 @@ public class TypeRESTController {
 
         Type updatedType = this.typeService.update(id, name, description, categoryId);
         return new ResponseEntity<>(updatedType,HttpStatus.OK);
-    }
+    }*/
 
     // WORKS !
-    @DeleteMapping("/delete/{id}")
+    /*@DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteType(@PathVariable("id") Long id){
         this.typeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
+    }*/
 }

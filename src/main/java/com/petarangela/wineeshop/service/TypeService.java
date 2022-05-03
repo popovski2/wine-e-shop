@@ -4,6 +4,7 @@ import com.petarangela.wineeshop.model.Type;
 import com.petarangela.wineeshop.model.Wine;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TypeService {
 
@@ -11,7 +12,7 @@ public interface TypeService {
     List<Type> listAllTypes();
 
     // find a type of wine by its id
-    Type findById(Long id);
+    Optional<Type> findById(Long id);
 
     // create a new type and save it to the DB
     Type create(String name, String description, Long categoryId);
@@ -20,10 +21,7 @@ public interface TypeService {
     Type update(Long id, String name, String description, Long categoryId );
 
     // delete a type with its name and update the DB
-    Type delete(Long id);
-
-    // find  all types that belong to certain category
-    List<Type> findAllByCategoryName(String name);
+    void deleteById(Long id);
 
     // find  all types that belong to certain category
     List<Type> findAllByCategoryId(Long id);

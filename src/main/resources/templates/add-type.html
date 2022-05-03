@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Wines</title>
+    <title>Add wine</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -59,64 +59,74 @@
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
-        <h3 class="jumbotron-heading">All wines</h3>
     </div>
 </section>
 
-
-<div class="container mb-4">
+<div class="container">
     <div class="row">
-        <!--ako ima wines togas pokazi go ovoj div-->
-        <div class="col-12" th:if="${wines.size() > 0}">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Wine name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Manufacturer</th>
-                        <th scope="col">Category</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="wine : ${wines}">
-                        <td th:text="${wine.getName()}"></td>
-                        <td th:text="${wine.getPrice()}"></td>
-                        <td th:text="${wine.getManufacturer() != null}
-                            ? ${wine.getManufacturer().getName()} : 'No Manufacturer'"></td>
-                        <td th:text="${wine.getCategory() != null}
-                            ? ${wine.getCategory().getName()} : 'No Category'"></td>
-                        <td class="text-right">
-                            <form th:action="@{'/wines/delete/{id}' (id=${wine.getId()})}" th:method="DELETE">
-                                <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Delete</i></button>
-                            </form>
-
-                            <a th:href="@{'/wines/edit-form/{id}' (id=${wine.getId()})}"
-                               class="btn btn-sm btn-info">
-                                <i class="fa fa-trash">Edit</i>
-                            </a>
-
-                            <form th:action="@{'/shopping-cart/add-wine/{id}' (id=${wine.getId()})}" th:method="POST">
-                                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-trash">Add wine to cart</i></button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col mb-3">
-            <div class="row">
-                <div class="col-sm-12 col-md-12">
-                    <a href="/wines/add-form" class="btn btn-block btn-dark">Add new wine</a>
+        <div class="col-md-5">
+            <form action="/types/add" method="POST">
+                <input id="id" type="hidden" name="id" th:value="(${type} != null ? ${type.getId()} : '')">
+                <div class="form-group">
+                    <label for="name">Variety name</label>
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           th:value="(${type} != null ? ${type.getName()} : '')"
+                           required
+                           placeholder="Enter variety name">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="name">Description</label>
+                    <input type="text"
+                           class="form-control"
+                           id="description"
+                           name="description"
+                           th:value="(${type} != null ? ${type.getDescription()} : '')"
+                           required
+                           placeholder="Enter description">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="categoryId" id="categoryId" class="form-control">
+                        <option th:if="${type} != null"
+                                th:selected="${type.getCategory() != null &&
+                                type.getCategory().getId() == cat.getId()}"
+                                th:each="cat : ${categories}"
+                                th:value="${cat.getId()}"
+                                th:text="${cat.getName()}">
+                        </option>
+                        <option th:if="${type} == null"
+                                th:each="cat : ${categories}"
+                                th:value="${cat.getId()}"
+                                th:text="${cat.getName()}">
+                        </option>
+                    </select>
+                </div>
+                <!-- <div class="form-group">
+                     <label>Category</label>
+                     <select name="categoryId" id="categoryId" class="form-control">
+                         <option th:if="${wine} != null"
+                                 th:selected="${wine.getCategory() != null &&
+                                 wine.getCategory().getId() == cat.getId()}"
+                                 th:each="cat : ${categories}"
+                                 th:value="${cat.getId()}"
+                                 th:text="${cat.getName()}">
+                         </option>
+                         <option th:if="${wine} == null"
+                                 th:each="cat : ${categories}"
+                                 th:value="${cat.getId()}"
+                                 th:text="${cat.getName()}">
+                         </option>
+                     </select>
+                 </div>-->
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a type="button" class="btn btn-primary" href="/types">Back</a>
+            </form>
         </div>
     </div>
 </div>
-
-
-
 
 
 <!-- Footer -->
@@ -131,6 +141,7 @@
                     impression.
                 </p>
             </div>
+
 
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
                 <h5>Informations</h5>
@@ -169,4 +180,3 @@
 </footer>
 </body>
 </html>
-
