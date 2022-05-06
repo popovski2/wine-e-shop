@@ -1,7 +1,9 @@
 package com.petarangela.wineeshop.web.controllers;
 
 
+import com.google.gson.Gson;
 import com.petarangela.wineeshop.model.ShoppingCart;
+import com.petarangela.wineeshop.model.Wine;
 import com.petarangela.wineeshop.service.ShoppingCartService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/shopping-cart")
@@ -33,6 +36,7 @@ public class ShoppingCartController {
         ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(username);
         model.addAttribute("wines", this.shoppingCartService.listAllWinesInShoppingCart(shoppingCart.getId()));
         model.addAttribute("bodyContent", "shopping-cart");
+        model.addAttribute("totalPrice", this.shoppingCartService.computeTotalPrice(shoppingCart.getId()));
         //model.addAttribute("total", 0.00);
         return "shopping-cart";
     }

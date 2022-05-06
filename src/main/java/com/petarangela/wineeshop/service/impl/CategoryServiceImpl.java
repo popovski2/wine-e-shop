@@ -124,8 +124,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Type> listAllTypes(String name) {
-       return this.typeRepository.findAllByCategory_Name(name);
+    public List<Type> listAllTypes(Long id) {
+        List<Type> types = this.typeRepository.findAll();
+        Category category = this.categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+        List<Type> typesInCategory = types.stream()
+                .filter(type -> type.getCategory().getId().equals(category.getId()))
+                .collect(Collectors.toList());
+        category.setTypes(typesInCategory);
+        return typesInCategory;
     }
 
     @Override

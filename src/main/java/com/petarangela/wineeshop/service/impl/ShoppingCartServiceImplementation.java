@@ -115,5 +115,15 @@ public class ShoppingCartServiceImplementation implements ShoppingCartService {
         this.shoppingCartRepository.save(shoppingCart);
     }
 
-
+    @Override
+    public Double computeTotalPrice(Long cartId) {
+        if(!this.shoppingCartRepository.findById(cartId).isPresent())
+            throw new CartNotFoundException(cartId);
+        List<Wine> wines =  this.shoppingCartRepository.findById(cartId).get().getWines();
+        double totalPrice = 0;
+        for (Wine w : wines) {
+            totalPrice += w.getPrice() * w.getQuantity();
+        }
+        return totalPrice;
+    }
 }

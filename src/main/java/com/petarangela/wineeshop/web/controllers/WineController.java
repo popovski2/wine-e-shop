@@ -1,5 +1,6 @@
 package com.petarangela.wineeshop.web.controllers;
 
+import com.google.gson.Gson;
 import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Manufacturer;
 import com.petarangela.wineeshop.model.Type;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/wines")
@@ -110,5 +112,20 @@ public class WineController {
             this.wineService.create(name, price, quantity,  imageUrl, categoryId, manufacturerId, typeId);
         }
         return "redirect:/wines";
+    }
+
+    @GetMapping(value = "/types")
+    //@ResponseBody
+    public List<Type> getTypes(@RequestParam Long id) {
+        return this.typeService.listAllTypes().stream()
+                .filter(t -> t.getCategory().getId().equals(id))
+                .collect(Collectors.toList());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "loadTypesByCategory/{id}", method = RequestMethod.GET)
+    public String loadTypesByCategory(@PathVariable("id") Long id) {
+        Gson gson = new Gson();
+        return gson.toJson(typeService.findAllByCategoryId(id));
     }
 }

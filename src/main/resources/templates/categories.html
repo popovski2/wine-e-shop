@@ -80,10 +80,15 @@
                     <tr th:each="category : ${categories}">
                         <td th:text="${category.getName()}"></td>
                         <td>
-                            <ul th:each="type : ${'typesIn' + category.getName()}">
-                                <li th:text="${type}">
+                            <ul th:each="type : ${types}"
+                                th:if="${type.getCategory().getId().equals(category.getId())}">
+                                <li th:text="${type.getName()}">
                                 </li>
                             </ul>
+                            <!--<ul th:each="type : ${'typesIn' + category.getName()}">
+                                <li th:text="${type}">
+                                </li>
+                            </ul>-->
                         </td>
                         <td class="text-right">
                             <form th:action="@{'/categories/delete/{id}' (id=${category.getId()})}" th:method="DELETE">

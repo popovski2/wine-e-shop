@@ -21,5 +21,7 @@ public interface ShoppingCartService {
 
     void decreaseQuantity(String username, Long wineId);
 
+    Double computeTotalPrice(Long cartId);
+
 
 }

@@ -1,6 +1,7 @@
 package com.petarangela.wineeshop.repository;
 
 import com.petarangela.wineeshop.model.Category;
+import com.petarangela.wineeshop.model.Type;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.stereotype.Repository;

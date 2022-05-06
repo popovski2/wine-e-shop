@@ -16,8 +16,8 @@ public class Category implements Serializable {
 
     private String name;
 
-  /*  @OneToMany(mappedBy = "category")
-    private List<Type> types;*/
+    @OneToMany
+    private List<Type> types;
 
 
    /* public Category(String name, List<Type> types) {
@@ -31,13 +31,13 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-   /* public void setTypes(List<Type> types) {
+    public void setTypes(List<Type> types) {
         this.types = types;
     }
 
     public List<Type> getTypes() {
         return types;
-    }*/
+    }
 
     public Long getId() {
         return id;

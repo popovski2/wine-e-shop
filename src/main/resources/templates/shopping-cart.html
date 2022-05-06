@@ -57,7 +57,6 @@
 </nav>
 <body>
 
-</body>
 <th:block xmlns:th="http://www.thymeleaf.org">
     <section class="jumbotron text-center">
         <div class="container">
@@ -96,7 +95,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="wine : ${wines}" class="cart-item">
+                        <tr id="items" th:each="wine : ${wines}" class="cart-item">
                             <td th:text="${wine.getName()}"></td>
                             <td th:with="sum=${wine.getPrice() * wine.getQuantity()}" th:text="${wine.getPrice() * wine.getQuantity()}"></td>
                             <td th:text="${wine.getManufacturer() != null} ? ${wine.getManufacturer().getName()} : 'No Manufacturer'"></td>
@@ -117,15 +116,8 @@
                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash">Remove</i></button>
                                 </form>
                             </td>
-                           <!-- <td>
-                                <h5 class="text-center text-danger" th:text="${total}"></h5>
-                            </td>-->
                         </tr>
-                        <tr>
-                            <td>
-                                <b th:text="${#aggregates.(wines.![price])}"></b>
-                            </td>
-                        </tr>
+                        <div th:text="${totalPrice}"></div>
                         </tbody>
                     </table>
                 </div>
@@ -134,6 +126,7 @@
     </div>
 
 </th:block>
+</body>
 
 
 

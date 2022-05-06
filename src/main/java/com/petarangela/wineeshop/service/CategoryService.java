@@ -30,7 +30,7 @@ public interface CategoryService {
     //  search categories
     List<Category> searchCategories(String searchText);
 
-    // list all types of certain category (name is the  name of the category)
-    List<Type> listAllTypes(String name);
+    // list all types of certain category (name is the name of the category)
+    List<Type> listAllTypes(Long id);
 
 }
