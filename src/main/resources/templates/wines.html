@@ -56,17 +56,22 @@
         </div>
     </div>
 </nav>
-<section class="jumbotron text-center">
-    <div class="container">
-        <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
-        <h3 class="jumbotron-heading">All wines</h3>
+
+<section class="pt-5 pb-5 mt-0 align-items-center d-flex jumbotron">
+    <div class="container" style="background-image: url('https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F9%2F2021%2F01%2F12%2Fmore-wine-tariffs-imposed-on-france-and-germany-FT-BLOG0121.jpg'); opacity: 0.9; background-size: cover; height: 40vh;">
+        <div class="justify-content-center align-items-center d-flex text-center h-100">
+            <div class="col-12 col-md-8  h-50 ">
+                <div>
+                    <h1 class="display-2  text-light mb-2 mt-5 jumbotron-heading text-light">All wines</h1>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-
+<!--
 <div class="container mb-4">
     <div class="row">
-        <!--ako ima wines togas pokazi go ovoj div-->
         <div class="col-12" th:if="${wines.size() > 0}">
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -113,60 +118,640 @@
             </div>
         </div>
     </div>
+</div>-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+<div class="container">
+    <div class="row clearfix" th:if="${wines.size() > 0}">
+        <div th:each="wine : ${wines}" class="col-md-6 col-xl-3">
+            <div class="card product_item m-b-30" >
+                <div class="card-body row">
+                    <div class="cp_img col-6">
+                        <img th:src="${wine.getImageUrl()}" alt="Product" class="img-fluid">
+                        <div class="hover">
+
+                            <a th:href="@{'/wines/edit-form/{id}' (id=${wine.getId()})}" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-edit"></i></a>
+
+                            <form th:action="@{'/wines/delete/{id}' (id=${wine.getId()})}" th:method="DELETE">
+                                <button type="submit" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-delete"></i></button>
+                            </form>
+
+                            <form th:action="@{'/shopping-cart/add-wine/{id}' (id=${wine.getId()})}" th:method="POST">
+                                <button type="submit" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></button>
+                            </form>
+
+                        </div>
+                    </div>
+                    <div class="product_details">
+                        <h5 th:text="${wine.getName()}"></h5>
+                        <ul class="product_price list-unstyled">
+                            <li class="old_price" th:text="${wine.getPrice()} + ' $'"></li>
+                            <li class="old_price" th:text="'Manufacturer: ' + ${wine.getManufacturer().getName()}"></li>
+                            <li class="old_price" th:text="'Category: ' + ${wine.getCategory().getName()}"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
+<div class="container">
+    <div class="col mb-3">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <a href="/wines/add-form" class="btn btn-block btn-dark">Add new wine</a>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
 
 
 <!-- Footer -->
-<footer class="text-black-50 mt-xl-5">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<footer class="footer_area section_padding_130_0">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-lg-4 col-xl-3">
-                <h5>About</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                <p class="mb-0">
-                    Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant
-                    impression.
-                </p>
+            <!-- Single Widget-->
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="single-footer-widget section_padding_0_130">
+                    <!-- Footer Logo-->
+                    <div class="footer-logo mb-3"></div>
+                    <p>A glass of wine is always a good idea :)</p>
+                    <!-- Copywrite Text-->
+                    <div class="copywrite-text mb-5">
+                        <p class="mb-0">Made with <i class="lni-heart mr-1"></i>by<a class="ml-1" href="https://wrapbootstrap.com/user/DesigningWorld">Designing World</a></p>
+                    </div>
+                    <!-- Footer Social Area-->
+                    <div class="footer_social_area"><a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest"><i class="fa fa-pinterest"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Skype"><i class="fa fa-skype"></i></a><a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></div>
+                </div>
             </div>
-
-            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
-                <h5>Informations</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                <ul class="list-unstyled">
-                    <li><a href="">Link 1</a></li>
-                    <li><a href="">Link 2</a></li>
-                    <li><a href="">Link 3</a></li>
-                    <li><a href="">Link 4</a></li>
-                </ul>
+            <!-- Single Widget-->
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="single-footer-widget section_padding_0_130">
+                    <!-- Widget Title-->
+                    <h5 class="widget-title">About</h5>
+                    <!-- Footer Menu-->
+                    <div class="footer_menu">
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Corporate Sale</a></li>
+                            <li><a href="#">Terms &amp; Policy</a></li>
+                            <li><a href="#">Community</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
-                <h5>Others links</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                <ul class="list-unstyled">
-                    <li><a href="">Link 1</a></li>
-                    <li><a href="">Link 2</a></li>
-                    <li><a href="">Link 3</a></li>
-                    <li><a href="">Link 4</a></li>
-                </ul>
+            <!-- Single Widget-->
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="single-footer-widget section_padding_0_130">
+                    <!-- Widget Title-->
+                    <h5 class="widget-title">Support</h5>
+                    <!-- Footer Menu-->
+                    <div class="footer_menu">
+                        <ul>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="#">Support</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Term &amp; Conditions</a></li>
+                            <li><a href="#">Help &amp; Support</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-md-4 col-lg-3 col-xl-3">
-                <h5>Contact</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-                <ul class="list-unstyled">
-                    <li><i class="fa fa-home mr-2"></i> My company</li>
-                    <li><i class="fa fa-envelope mr-2"></i> email@example.com</li>
-                    <li><i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>
-                    <li><i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>
-                </ul>
+            <!-- Single Widget-->
+            <div class="col-12 col-sm-6 col-lg">
+                <div class="single-footer-widget section_padding_0_130">
+                    <!-- Widget Title-->
+                    <h5 class="widget-title">Contact</h5>
+                    <!-- Footer Menu-->
+                    <div class="footer_menu">
+                        <ul>
+                            <li><a href="#">Call Centre</a></li>
+                            <li><a href="#">Email Us</a></li>
+                            <li><a href="#">Term &amp; Conditions</a></li>
+                            <li><a href="#">Help Center</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </footer>
+
+<style>
+    body{
+        margin-top:20px;
+        background-color: #f4f7f6;
+    }
+    .c_review {
+        margin-bottom: 0
+    }
+
+    .c_review li {
+        margin-bottom: 16px;
+        padding-bottom: 13px;
+        border-bottom: 1px solid #e8e8e8
+    }
+
+    .c_review li:last-child {
+        margin: 0;
+        border: none
+    }
+
+    .c_review .avatar {
+        float: left;
+        width: 80px
+    }
+
+    .c_review .comment-action {
+        float: left;
+        width: calc(100% - 80px)
+    }
+
+    .c_review .comment-action .c_name {
+        margin: 0
+    }
+
+    .c_review .comment-action p {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 95%;
+        display: block
+    }
+
+    .product_item:hover .cp_img {
+        top: -40px
+    }
+
+    .product_item:hover .cp_img img {
+        box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22)
+    }
+
+    .product_item:hover .cp_img .hover {
+        display: block
+    }
+
+    .product_item .cp_img {
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translate(-50%);
+        -webkit-transform: translate(-50%);
+        -ms-transform: translate(-50%);
+        -moz-transform: translate(-50%);
+        -o-transform: translate(-50%);
+        -khtml-transform: translate(-50%);
+        width: 100%;
+        padding: 15px;
+        transition: all 0.2s ease-in-out
+    }
+
+    .product_item .cp_img img {
+        transition: all 0.2s ease-in-out;
+        border-radius: 6px
+    }
+
+    .product_item .cp_img .hover {
+        display: none;
+        text-align: center;
+        margin-top: 10px
+    }
+
+    .product_item .product_details {
+        padding-top: 110%;
+        text-align: center
+    }
+
+    .product_item .product_details h5 {
+        margin-bottom: 5px
+    }
+
+    .product_item .product_details h5 a {
+        font-size: 16px;
+        color: #444
+    }
+
+    .product_item .product_details h5 a:hover {
+        text-decoration: none
+    }
+
+    .product_item .product_details h5 form:hover {
+        text-decoration: none
+    }
+
+    .product_item .product_details .product_price {
+        margin: 0
+    }
+
+    .product_item .product_details .product_price li {
+        display: inline-block;
+        padding: 0 10px
+    }
+
+    .product_item .product_details .product_price .new_price {
+        font-weight: 600;
+        color: #ff4136
+    }
+
+    .product_item_list table tr td {
+        vertical-align: middle
+    }
+
+    .product_item_list table tr td h5 {
+        font-size: 15px;
+        margin: 0
+    }
+
+    .product_item_list table tr td .btn {
+        box-shadow: none !important
+    }
+
+    .product-order-list table tr th:last-child {
+        width: 145px
+    }
+
+    .preview {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column
+    }
+
+    .preview .preview-pic {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1
+    }
+
+    .preview .preview-thumbnail.nav-tabs {
+        margin-top: 15px;
+        font-size: 0
+    }
+
+    .preview .preview-thumbnail.nav-tabs li {
+        width: 20%;
+        display: inline-block
+    }
+
+    .preview .preview-thumbnail.nav-tabs li nav-link img {
+        max-width: 100%;
+        display: block
+    }
+
+    .preview .preview-thumbnail.nav-tabs li a {
+        padding: 0;
+        margin: 2px;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important
+    }
+
+    .preview .preview-thumbnail.nav-tabs li:last-of-type {
+        margin-right: 0
+    }
+
+    .preview .tab-content {
+        overflow: hidden
+    }
+
+    .preview .tab-content img {
+        width: 100%;
+        -webkit-animation-name: opacity;
+        animation-name: opacity;
+        -webkit-animation-duration: .3s;
+        animation-duration: .3s
+    }
+
+    .details {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column
+    }
+
+    .details .rating .stars {
+        display: inline-block
+    }
+
+    .details .sizes .size {
+        margin-right: 10px
+    }
+
+    .details .sizes .size:first-of-type {
+        margin-left: 40px
+    }
+
+    .details .colors .color {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        height: 2em;
+        width: 2em;
+        border-radius: 2px
+    }
+
+    .details .colors .color:first-of-type {
+        margin-left: 20px
+    }
+
+    .details .colors .not-available {
+        text-align: center;
+        line-height: 2em
+    }
+
+    .details .colors .not-available:before {
+        font-family: Material-Design-Iconic-Font;
+        content: "\f136";
+        color: #fff
+    }
+
+    @media screen and (max-width: 996px) {
+        .preview {
+            margin-bottom: 20px
+        }
+    }
+
+    @-webkit-keyframes opacity {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale(3);
+            transform: scale(3)
+        }
+        100% {
+            opacity: 1;
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+    }
+
+    @keyframes opacity {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale(3);
+            transform: scale(3)
+        }
+        100% {
+            opacity: 1;
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+    }
+
+    .cart-page .cart-table tr th:last-child {
+        width: 145px
+    }
+
+    .cart-table .quantity-grp {
+        width: 120px
+    }
+
+    .cart-table .quantity-grp .input-group {
+        margin-bottom: 0
+    }
+
+    .cart-table .quantity-grp .input-group-addon {
+        padding: 0 !important;
+        text-align: center;
+        background-color: #1ab1e3
+    }
+
+    .cart-table .quantity-grp .input-group-addon a {
+        display: block;
+        padding: 8px 10px 10px;
+        color: #fff
+    }
+
+    .cart-table .quantity-grp .input-group-addon a i {
+        vertical-align: middle
+    }
+
+    .cart-table .quantity-grp .form-control {
+        background-color: #fff
+    }
+
+    .cart-table .quantity-grp .form-control+.input-group-addon {
+        background-color: #1ab1e3
+    }
+
+    .ec-checkout .wizard .content .form-group .btn-group.bootstrap-select.form-control {
+        padding: 0
+    }
+
+    .ec-checkout .wizard .content .form-group .btn-group.bootstrap-select.form-control .btn-round.btn-simple {
+        padding-top: 12px;
+        padding-bottom: 12px
+    }
+
+    .ec-checkout .wizard .content ul.card-type {
+        font-size: 0
+    }
+
+    .ec-checkout .wizard .content ul.card-type li {
+        display: inline-block;
+        margin-right: 10px
+    }
+
+    .card {
+        background: #fff;
+        margin-bottom: 30px;
+        transition: .5s;
+        border: 0;
+        border-radius: .55rem;
+        position: relative;
+        width: 100%;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+    }
+
+    .card .body {
+        font-size: 14px;
+        color: #424242;
+        padding: 20px;
+        font-weight: 400;
+    }
+
+    body{margin-top:20px;}
+    .footer_area {
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        webkit-box-shadow: 0 8px 48px 8px rgba(47, 91, 234, 0.175);
+        box-shadow: 0 8px 48px 8px rgba(47, 91, 234, 0.175);
+        padding:60px;
+    }
+    .footer_area .row {
+        margin-left: -25px;
+        margin-right: -25px;
+    }
+    .footer_area .row .col,
+    .footer_area .row .col-1,
+    .footer_area .row .col-10,
+    .footer_area .row .col-11,
+    .footer_area .row .col-12,
+    .footer_area .row .col-2,
+    .footer_area .row .col-3,
+    .footer_area .row .col-4,
+    .footer_area .row .col-5,
+    .footer_area .row .col-6,
+    .footer_area .row .col-7,
+    .footer_area .row .col-8,
+    .footer_area .row .col-9,
+    .footer_area .row .col-auto,
+    .footer_area .row .col-lg,
+    .footer_area .row .col-lg-1,
+    .footer_area .row .col-lg-10,
+    .footer_area .row .col-lg-11,
+    .footer_area .row .col-lg-12,
+    .footer_area .row .col-lg-2,
+    .footer_area .row .col-lg-3,
+    .footer_area .row .col-lg-4,
+    .footer_area .row .col-lg-5,
+    .footer_area .row .col-lg-6,
+    .footer_area .row .col-lg-7,
+    .footer_area .row .col-lg-8,
+    .footer_area .row .col-lg-9,
+    .footer_area .row .col-lg-auto,
+    .footer_area .row .col-md,
+    .footer_area .row .col-md-1,
+    .footer_area .row .col-md-10,
+    .footer_area .row .col-md-11,
+    .footer_area .row .col-md-12,
+    .footer_area .row .col-md-2,
+    .footer_area .row .col-md-3,
+    .footer_area .row .col-md-4,
+    .footer_area .row .col-md-5,
+    .footer_area .row .col-md-6,
+    .footer_area .row .col-md-7,
+    .footer_area .row .col-md-8,
+    .footer_area .row .col-md-9,
+    .footer_area .row .col-md-auto,
+    .footer_area .row .col-sm,
+    .footer_area .row .col-sm-1,
+    .footer_area .row .col-sm-10,
+    .footer_area .row .col-sm-11,
+    .footer_area .row .col-sm-12,
+    .footer_area .row .col-sm-2,
+    .footer_area .row .col-sm-3,
+    .footer_area .row .col-sm-4,
+    .footer_area .row .col-sm-5,
+    .footer_area .row .col-sm-6,
+    .footer_area .row .col-sm-7,
+    .footer_area .row .col-sm-8,
+    .footer_area .row .col-sm-9,
+    .footer_area .row .col-sm-auto,
+    .footer_area .row .col-xl,
+    .footer_area .row .col-xl-1,
+    .footer_area .row .col-xl-10,
+    .footer_area .row .col-xl-11,
+    .footer_area .row .col-xl-12,
+    .footer_area .row .col-xl-2,
+    .footer_area .row .col-xl-3,
+    .footer_area .row .col-xl-4,
+    .footer_area .row .col-xl-5,
+    .footer_area .row .col-xl-6,
+    .footer_area .row .col-xl-7,
+    .footer_area .row .col-xl-8,
+    .footer_area .row .col-xl-9,
+    .footer_area .row .col-xl-auto {
+        padding-right: 25px;
+        padding-left: 25px;
+    }
+
+    .single-footer-widget {
+        position: relative;
+        z-index: 1;
+    }
+    .single-footer-widget .copywrite-text a {
+        color: #747794;
+        font-size: 1rem;
+    }
+    .single-footer-widget .copywrite-text a:hover,
+    .single-footer-widget .copywrite-text a:focus {
+        color: #3f43fd;
+    }
+    .single-footer-widget .widget-title {
+        margin-bottom: 1.5rem;
+    }
+    .single-footer-widget .footer_menu li a {
+        color: #747794;
+        margin-bottom: 1rem;
+        display: block;
+        font-size: 1rem;
+    }
+    .single-footer-widget .footer_menu li a:hover,
+    .single-footer-widget .footer_menu li a:focus {
+        color: #3f43fd;
+    }
+    .single-footer-widget .footer_menu li:last-child a {
+        margin-bottom: 0;
+    }
+
+    .footer_social_area {
+        position: relative;
+        z-index: 1;
+    }
+    .footer_social_area a {
+        border-radius: 50%;
+        height: 40px;
+        text-align: center;
+        width: 40px;
+        display: inline-block;
+        background-color: #f5f5ff;
+        line-height: 40px;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin-right: 10px;
+    }
+    .footer_social_area a i {
+        line-height: 36px;
+    }
+    .footer_social_area a:hover,
+    .footer_social_area a:focus {
+        color: #ffffff;
+    }
+
+    @-webkit-keyframes bi-cycle {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: 100%;
+        }
+    }
+
+    @keyframes bi-cycle {
+        0% {
+            left: 0;
+        }
+        100% {
+            left: 100%;
+        }
+    }
+    ol li, ul li {
+        list-style: none;
+    }
+
+    ol, ul {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
 </body>
 </html>
 
