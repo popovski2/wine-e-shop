@@ -3,7 +3,6 @@ package com.petarangela.wineeshop.web.rest;
 import com.petarangela.wineeshop.model.Role;
 import com.petarangela.wineeshop.model.ShoppingCart;
 import com.petarangela.wineeshop.model.User;
-import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.service.UserService;
 import com.petarangela.wineeshop.web.controllers.LoginController;
 import lombok.Data;
@@ -36,11 +35,7 @@ public class UserRESTController extends LoginController {
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
-    @PostMapping("/save/role")
-    public ResponseEntity<UserRole> saveRole(@RequestBody UserRole role) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/save/role").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
-    }
+
 
     @GetMapping("get/user")
     public ResponseEntity<LoggedinUser> getLoggedinUser(){

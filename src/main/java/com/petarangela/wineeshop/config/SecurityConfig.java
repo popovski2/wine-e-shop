@@ -4,6 +4,7 @@ package com.petarangela.wineeshop.config;
 import com.petarangela.wineeshop.filter.CustomUsernamePasswordAuthenticationProvider;
 import com.petarangela.wineeshop.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,15 +20,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
 
     @Autowired
     @Lazy
     private UserServiceImpl userDetailsService;
 
-    public SecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder, CustomUsernamePasswordAuthenticationProvider authenticationProvider) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    public SecurityConfig( CustomUsernamePasswordAuthenticationProvider authenticationProvider) {
         this.authenticationProvider = authenticationProvider;
     }
 
@@ -94,6 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     }
+
+
 
 
 }

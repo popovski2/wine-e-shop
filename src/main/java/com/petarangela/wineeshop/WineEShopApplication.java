@@ -1,7 +1,6 @@
 package com.petarangela.wineeshop;
 
 import com.petarangela.wineeshop.model.User;
-import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.service.UserService;
 import com.petarangela.wineeshop.web.controllers.LoginController;
 import org.springframework.boot.CommandLineRunner;

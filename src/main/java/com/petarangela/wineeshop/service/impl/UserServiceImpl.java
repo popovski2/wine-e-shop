@@ -2,15 +2,11 @@ package com.petarangela.wineeshop.service.impl;
 
 import com.petarangela.wineeshop.model.Role;
 import com.petarangela.wineeshop.model.User;
-import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.model.exceptions.InvalidArgumentsException;
-import com.petarangela.wineeshop.model.exceptions.InvalidUserCredentialsException;
 import com.petarangela.wineeshop.repository.UserRepository;
-import com.petarangela.wineeshop.repository.UserRoleRepository;
 import com.petarangela.wineeshop.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.support.BeanDefinitionDsl;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -30,19 +25,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
 
-    private final UserRoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository,
-                           UserRoleRepository roleRepository,
                            PasswordEncoder passwordEncoder
                            ) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
+/*
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -55,13 +47,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         // looping over all the roles of the user and for every single one, we're creating a simple granted authority by passing the role name
-        /*Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getUserRoles().forEach(role -> {
+      *//*  Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        user.getRole().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });*/
+        });*//*
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+    }*/
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepository.findByUsername(s);
     }
+
 
     @Override
     public User saveUser(User user) {
@@ -70,11 +68,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.save(user);
     }
 
-    @Override
-    public UserRole saveRole(UserRole role) {
-        //log.info("Saving new role {} to the DB", role.getName());
-        return roleRepository.save(role);
-    }
 
    /* @Override
     public void addRoleToUser(String username, String roleName) {
@@ -148,6 +141,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         /*List<UserRole> roles = new ArrayList<>();
         roles.add(new UserRole("CUSTOMER"));*/
         User user = new User(username,encryptedPassword, name, surname, Role.ROLE_CUSTOMER);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User registerAsManufacturer(String username, String password, String name, String surname) {
+        if (username==null || username.isEmpty()  || password==null || password.isEmpty()) {
+            throw new InvalidArgumentsException();
+        }
+        String encryptedPassword = this.passwordEncoder.encode(password);
+        User user = new User(username,encryptedPassword, name, surname, Role.ROLE_MANUFACTURER);
         return userRepository.save(user);
     }
 

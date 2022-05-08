@@ -52,7 +52,7 @@ public class DataInitializer {
         userService.saveUser(new User(null, "Trajko", "Trajkoski", "trajko.trajkoski", "1234", new ArrayList<>(), carts));
 */
      userService.saveUser(new User("popovski2","1234","petar","popovski",Role.ROLE_CUSTOMER));
-     userService.saveUser(new User("trajko","1234","trajko","trajkovski",Role.ROLE_ADMIN));
+     userService.saveUser(new User("trajko@gmail.com","1234","trajko","trajkovski",Role.ROLE_ADMIN));
      userService.saveUser(new User("angela.madjar","1234","angela","madjar",Role.ROLE_CUSTOMER));
 
 

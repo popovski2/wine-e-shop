@@ -1,6 +1,7 @@
 package com.petarangela.wineeshop.web.controllers;
 
 import com.petarangela.wineeshop.filter.CustomUsernamePasswordAuthenticationProvider;
+import com.petarangela.wineeshop.model.Role;
 import com.petarangela.wineeshop.model.exceptions.InvalidArgumentsException;
 import com.petarangela.wineeshop.model.exceptions.PasswordsDoNotMatchException;
 import com.petarangela.wineeshop.service.ManufacturerService;
@@ -52,8 +53,8 @@ public class RegisterManufacturerController {
                                        @RequestParam String address
     ) {
         try{
-            this.userService.register(username, password, name, surname);
             this.manufacturerService.create(name, address);
+            this.userService.registerAsManufacturer(username, password, name, surname);
             //auto login after registration
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
             authToken.setDetails(new WebAuthenticationDetails(request));

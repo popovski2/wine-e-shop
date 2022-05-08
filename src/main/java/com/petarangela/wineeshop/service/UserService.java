@@ -1,7 +1,6 @@
 package com.petarangela.wineeshop.service;
 
 import com.petarangela.wineeshop.model.User;
-import com.petarangela.wineeshop.model.UserRole;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -13,7 +12,6 @@ public interface UserService extends UserDetailsService {
 
     User saveUser(User user);
 
-    UserRole saveRole(UserRole role);
 
    // void addRoleToUser(String username, String roleName);
 
@@ -24,6 +22,9 @@ public interface UserService extends UserDetailsService {
     // Optional<User> login(String email, String password);
 
     User register(String email, String password, String name, String surname);
+
+
+    User registerAsManufacturer(String email, String password, String name, String surname);
 
     User login(String username, String password);
 
