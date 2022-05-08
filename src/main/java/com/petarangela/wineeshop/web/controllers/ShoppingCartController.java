@@ -3,10 +3,10 @@ package com.petarangela.wineeshop.web.controllers;
 
 import com.google.gson.Gson;
 import com.petarangela.wineeshop.model.ShoppingCart;
+import com.petarangela.wineeshop.model.User;
 import com.petarangela.wineeshop.model.Wine;
 import com.petarangela.wineeshop.service.ShoppingCartService;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
