@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@RedisHash
+//@RedisHash
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
     List<Category> findAllByNameLike(String name);
 

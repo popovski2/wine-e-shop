@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-@RedisHash
+//@RedisHash
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart,Long> {
 
     Optional<ShoppingCart> findByUserAndStatus(User user, ShoppingCartStatus status);

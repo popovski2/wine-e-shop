@@ -39,7 +39,7 @@ public class WineServiceImpl implements WineService {
 
 
     @Override
-   // @Cacheable(value="Wine")
+    @Cacheable(value="Wine")
     public List<Wine> listAllWines() {
         return this.wineRepository.findAll();
     }
