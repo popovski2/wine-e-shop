@@ -42,6 +42,9 @@ public class WineController {
         }
         List<Wine> wines = this.wineService.listAllWines();
         model.addAttribute("wines",wines);
+
+        List<Category> categories = this.categoryService.listAll();
+        model.addAttribute("categories", categories);
         return "wines";
     }
 
