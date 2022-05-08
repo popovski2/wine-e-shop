@@ -1,10 +1,12 @@
 package com.petarangela.wineeshop.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -27,6 +29,9 @@ public class ShoppingCart {
 
     @Enumerated(EnumType.STRING)
     private ShoppingCartStatus status;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date date;
 
     public ShoppingCart(LocalDateTime dataCreated, User user, ShoppingCartStatus status) {
         this.id = (long) (Math.random()*1000);
