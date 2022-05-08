@@ -1,10 +1,7 @@
 package com.petarangela.wineeshop.web.controllers;
 
 import com.google.gson.Gson;
-import com.petarangela.wineeshop.model.Category;
-import com.petarangela.wineeshop.model.Manufacturer;
-import com.petarangela.wineeshop.model.Type;
-import com.petarangela.wineeshop.model.Wine;
+import com.petarangela.wineeshop.model.*;
 import com.petarangela.wineeshop.service.CategoryService;
 import com.petarangela.wineeshop.service.ManufacturerService;
 import com.petarangela.wineeshop.service.TypeService;
@@ -128,4 +125,16 @@ public class WineController {
         Gson gson = new Gson();
         return gson.toJson(typeService.findAllByCategoryId(id));
     }
+
+
+    @GetMapping("/getWinesBy/{name}")
+    public String getWinesBy(@PathVariable String name, Model model) {
+        if (this.categoryService.findByName(name) != null) {
+            List<Wine> winesByCategory = this.wineService.listWinesByCategory(name);
+            model.addAttribute("winesByCategory", winesByCategory);
+            return "redirect:/wines";
+        }
+        return "redirect:/wines?error=WineNotFound";
+    }
+
 }

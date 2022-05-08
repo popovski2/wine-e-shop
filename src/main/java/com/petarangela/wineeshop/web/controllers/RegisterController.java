@@ -1,14 +1,12 @@
 package com.petarangela.wineeshop.web.controllers;
 
-import com.petarangela.wineeshop.model.UserRole;
 import com.petarangela.wineeshop.model.exceptions.InvalidArgumentsException;
 import com.petarangela.wineeshop.model.exceptions.PasswordsDoNotMatchException;
+import com.petarangela.wineeshop.service.ManufacturerService;
 import com.petarangela.wineeshop.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/register")
@@ -16,7 +14,7 @@ public class RegisterController {
 
     private final UserService userService;
 
-    public RegisterController( UserService userService) {
+    public RegisterController(UserService userService) {
         this.userService = userService;
     }
 
@@ -38,9 +36,10 @@ public class RegisterController {
                            ) {
         try{
             this.userService.register(username, password, name, surname);
-            return "redirect:http://localhost:4200/";
+            return "redirect:http://localhost:9091/";
         } catch (InvalidArgumentsException | PasswordsDoNotMatchException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
     }
+
 }

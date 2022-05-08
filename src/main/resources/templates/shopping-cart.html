@@ -10,7 +10,7 @@
 </head>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/home">WEB PROGRAMMING SHOP</a>
+        <a class="navbar-brand" href="/home"><i>Best of Wines</i></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,10 +28,10 @@
                     <a class="nav-link active" href="/categories">Categories</a>
                 </li>
                 <li class="nav-item m-auto">
-                    <a class="nav-link active" href="/manufacturers">Manufacturers</a>
+                    <a class="nav-link active" href="/types">Varieties</a>
                 </li>
                 <li class="nav-item m-auto">
-                    <a class="nav-link active" href="/types">Varieties</a>
+                    <a class="nav-link active" href="/manufacturers">Manufacturers</a>
                 </li>
             </ul>
 
@@ -46,10 +46,10 @@
                     </div>
                 </div>
                 <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
-                    <i class="fa fa-shopping-cart"></i> Cart
+                    <i class="fa fa-shopping-cart"></i>  Cart
                 </a>
                 <a class="btn btn-light btn-sm ml-3" href="/logout">
-                    <i class="fa fa-shopping-cart"></i> Logout
+                    <i class="fa fa-sign-out"></i>  Logout
                 </a>
             </form>
         </div>
@@ -60,21 +60,25 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
     <section class="jumbotron text-center">
         <div class="container">
-            <h3 class="jumbotron-heading">Shopping cart for
+            <h3 class="jumbotron-heading"><i>Shopping cart for
                 <th:block th:if="${#request.getRemoteUser() != null}" th:text="${#request.getRemoteUser()}"></th:block>
-            </h3>
+            </i></h3>
         </div>
     </section>
 
-    <div th:if="${wines.size() == 0}" style="justify-content: center">
-        <img style="display: flex" width="700px" height="500px" src="https://www.99fashionbrands.com/wp-content/uploads/2020/12/empty_cart-1200x900.png">
-    </div>
+
+        <div class="container" th:if="${wines.size() == 0}">
+            <div style="justify-content: center; padding-left: 200px;">
+                <img style="display: flex" width="700px" height="500px" src="https://sethisbakery.com/assets/website/images/empty-cart.png">
+            </div>
+        </div>
+
 
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-right" th:if="${wines.size() > 0}">
                 <form th:action="@{'/shopping-cart/emptyCart'}" th:method="DELETE">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Clear cart</button>
+                    <button type="submit" onclick="return confirm('Are you sure you want to empty your cart?')" class="btn btn-sm btn-outline-danger">Clear cart</button>
                 </form>
             </div>
         </div>
@@ -124,7 +128,7 @@
                             </td>
                             <td class="text-right">
                                 <form th:action="@{'/shopping-cart/delete/{id}' (id=${wine.getId()})}" th:method="DELETE">
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                    <button type="submit" onclick="return confirm('Are you sure you want to remove this item?')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
                             </td>
                         </tr>

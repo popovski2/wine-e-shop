@@ -11,7 +11,7 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/home">WEB PROGRAMMING SHOP</a>
+        <a class="navbar-brand" href="/home"><i>Best of Wines</i></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,10 +29,10 @@
                     <a class="nav-link active" href="/categories">Categories</a>
                 </li>
                 <li class="nav-item m-auto">
-                    <a class="nav-link active" href="/manufacturers">Manufacturers</a>
+                    <a class="nav-link active" href="/types">Varieties</a>
                 </li>
                 <li class="nav-item m-auto">
-                    <a class="nav-link active" href="/types">Varieties</a>
+                    <a class="nav-link active" href="/manufacturers">Manufacturers</a>
                 </li>
             </ul>
 
@@ -47,10 +47,10 @@
                     </div>
                 </div>
                 <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
-                    <i class="fa fa-shopping-cart"></i> Cart
+                    <i class="fa fa-shopping-cart"></i>  Cart
                 </a>
                 <a class="btn btn-light btn-sm ml-3" href="/logout">
-                    <i class="fa fa-shopping-cart"></i> Logout
+                    <i class="fa fa-sign-out"></i>  Logout
                 </a>
             </form>
         </div>
@@ -122,7 +122,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
 <div class="container">
-    <div class="row clearfix" th:if="${wines.size() > 0}">
+    <div class="row clearfix" th:if="${wines.size() > 0}" th:fragment="list">
         <div th:each="wine : ${wines}" class="col-md-6 col-xl-3">
             <div class="card product_item m-b-30" >
                 <div class="card-body row">
@@ -133,7 +133,7 @@
                             <a th:href="@{'/wines/edit-form/{id}' (id=${wine.getId()})}" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-edit"></i></a>
 
                             <form th:action="@{'/wines/delete/{id}' (id=${wine.getId()})}" th:method="DELETE">
-                                <button type="submit" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-delete"></i></button>
+                                <button type="submit" onclick="return confirm('Deleting this item might result in deleting the Category of the Wine and/or the Variety of the wine. Are you sure you want to delete this item?')" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-delete"></i></button>
                             </form>
 
                             <form th:action="@{'/shopping-cart/add-wine/{id}' (id=${wine.getId()})}" th:method="POST">

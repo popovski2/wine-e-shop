@@ -32,4 +32,5 @@ public interface WineService {
     //List<Wine> listWinesByType(Long typeId);
     void deleteById(Long id);
 
+    List<Wine> listWinesByCategory(String name);
 }

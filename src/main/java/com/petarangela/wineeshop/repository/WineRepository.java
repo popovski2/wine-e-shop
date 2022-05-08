@@ -16,4 +16,5 @@ public interface WineRepository extends JpaRepository<Wine, Long> {
     List<Wine> findAllByType(Type type);
 
     void deleteById(Long id);
+
 }

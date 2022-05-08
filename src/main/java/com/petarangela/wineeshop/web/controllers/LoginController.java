@@ -81,7 +81,7 @@ public class LoginController {
             request.getSession().setAttribute("username",session.getAttribute("username"));
 
 
-            return "redirect:/api/wines/all";
+            return "redirect:/home";
         }
         catch (InvalidUserCredentialsException exception) {
             model.addAttribute("hasError", true);
