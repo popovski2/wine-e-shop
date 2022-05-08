@@ -49,10 +49,14 @@
                 <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
                     <i class="fa fa-shopping-cart"></i>  Cart
                 </a>
-                <a class="btn btn-light btn-sm ml-3" href="/logout">
+                <a th:if="${#request.getRemoteUser() == null}" class="btn btn-light btn-sm ml-3" href="/login">
+                    <i class="fa fa-sign-in"></i>  Login
+                </a>
+                <a th:if="${#request.getRemoteUser() != null}" class="btn btn-light btn-sm ml-3" href="/logout">
                     <i class="fa fa-sign-out"></i>  Logout
                 </a>
             </form>
+            <a class="text-light" style="padding-left: 2%; font-size: small;" th:if="${#request.getRemoteUser() != null}" th:text="'Hello, ' + ${#request.getUserPrincipal().name}" href="#"></a>
         </div>
     </div>
 </nav>
