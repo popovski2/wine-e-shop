@@ -72,4 +72,10 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         this.manufacturerRepository.deleteById(id);
     }
 
+    @Override
+    public Optional<Manufacturer> findByName(String name) {
+        return Optional.ofNullable(this.manufacturerRepository.findManufacturerByName(name));
+    }
+
+
 }

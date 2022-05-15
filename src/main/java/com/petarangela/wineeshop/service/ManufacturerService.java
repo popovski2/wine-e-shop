@@ -1,5 +1,6 @@
 package com.petarangela.wineeshop.service;
 
+import com.petarangela.wineeshop.model.Category;
 import com.petarangela.wineeshop.model.Manufacturer;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public interface ManufacturerService {
     Manufacturer create(String name, String address);
 
     void deleteById(Long id);
+
+    //find category by name
+    Optional<Manufacturer> findByName(String name);
 
 
 }

@@ -14,6 +14,9 @@ public interface TypeService {
     // find a type of wine by its id
     Optional<Type> findById(Long id);
 
+    // find a type of wine by its id
+    Optional<Type> findByName(String name);
+
     // create a new type and save it to the DB
     Type create(String name, String description, Long categoryId);
 

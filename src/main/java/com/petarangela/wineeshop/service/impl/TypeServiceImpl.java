@@ -41,6 +41,11 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    public Optional<Type> findByName(String name) {
+        return Optional.ofNullable(this.typeRepository.findTypeByName(name));
+    }
+
+    @Override
     public Type create(String name, String description, Long categoryId) {
         if (name==null || name.isEmpty() || description==null || description.isEmpty() || categoryId == null) {
             throw new IllegalArgumentException();

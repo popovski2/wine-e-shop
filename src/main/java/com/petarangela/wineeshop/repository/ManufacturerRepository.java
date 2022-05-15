@@ -13,7 +13,7 @@ import java.util.List;
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
     List<Category> findAllByNameLike(String name);
 
-    Category findManufacturerByName(String name);
+    Manufacturer findManufacturerByName(String name);
 
     void deleteByName(String name);
 
